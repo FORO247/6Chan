@@ -3,23 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>6Chan - App Oficial</title>
+    <title>6Chan - Panel de Administración</title>
     
     <meta name="theme-color" content="#E0F2F1">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <style>
-        /* --- ESTILOS INSPIRADOS EN IMAGEBOARDS --- */
+        /* --- ESTILOS --- */
         body { 
             background-color: #E0F2F1; 
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Ctext x='0' y='30' font-family='Arial' font-size='10' fill='%23009688' fill-opacity='0.1' transform='rotate(-30 40 20)'%3E6chan 6chan%3C/text%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Ctext x='0' y='30' font-family='Arial' font-size='10' fill='%23009688' fill-opacity='0.1' transform='rotate(-30 40 20)'%3E6chan%3C/text%3E%3C/svg%3E");
             color: #800000; 
             font-family: arial,helvetica,sans-serif; 
             font-size: 10pt; 
             margin: 0; 
             padding: 10px; 
-            transition: background 0.3s, color 0.3s;
+            transition: background 0.3s;
         }
 
         /* MODO OSCURO */
@@ -28,44 +27,41 @@
         .dark-mode .post-message { color: #c5c8c6; }
         .dark-mode .post-info { color: #b294bb; }
         .dark-mode #btnPostear { background-color: #373b41; color: #eee; }
-        .dark-mode .post.is-reply { background-color: rgba(40, 42, 46, 0.7); border-left: 3px solid #444; }
+        .dark-mode .post.is-reply { background-color: rgba(40, 42, 46, 0.7); }
 
         header { text-align: center; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; gap: 15px; }
-        header h1 { color: #AF0A0F; font-size: 28pt; margin: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+        header h1 { color: #AF0A0F; font-size: 28pt; margin: 0; }
         .libelula { width: 45px; height: 45px; }
 
-        /* MODO ADMIN (ROOTMASTER) */
+        /* ADMIN STYLE */
         .post-admin { border: 2px solid #AF0A0F !important; background-color: #FFF0F0 !important; }
         .name-admin { color: #FF0000 !important; font-weight: bold; text-transform: uppercase; }
-        .dark-mode .post-admin { background-color: #3a1a1a !important; border-color: #ff0000 !important; }
+        .btn-delete { color: #FF0000; cursor: pointer; font-weight: bold; margin-left: 10px; font-size: 8pt; text-decoration: none; }
+        .btn-delete:hover { background-color: #f00; color: #fff; }
 
-        /* FORMULARIO */
-        .post-form { display: flex; justify-content: center; margin-bottom: 25px; width: 100%; }
+        /* FORM */
+        .post-form { display: flex; justify-content: center; margin-bottom: 25px; }
         .post-form table { background-color: #D6DAF0; border: 1px solid #B7C5D9; border-collapse: collapse; width: 100%; max-width: 500px; }
         .post-form td { border: 1px solid #B7C5D9; padding: 6px; }
         .post-form input, .post-form textarea { border: 1px solid #AAA; font-size: 11pt; padding: 8px; width: 100%; box-sizing: border-box; }
         #btnPostear { width: 100%; padding: 12px; font-size: 12pt; background-color: #eee; border: 1px solid #777; font-weight: bold; cursor: pointer; }
 
-        /* POSTS Y RESPUESTAS */
+        /* POSTS */
         #board { margin: 0 auto; max-width: 1000px; }
-        .post { background-color: #D6DAF0; border: 1px solid #B7C5D9; padding: 10px; margin-bottom: 12px; box-shadow: 1px 1px 3px rgba(0,0,0,0.1); position: relative; }
+        .post { background-color: #D6DAF0; border: 1px solid #B7C5D9; padding: 10px; margin-bottom: 12px; box-shadow: 1px 1px 3px rgba(0,0,0,0.1); }
         .post.is-reply { margin-left: 30px; border-left: 3px solid #B7C5D9; background-color: rgba(214, 218, 240, 0.7); }
-        
         .post-info { font-size: 9pt; color: #117743; font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid #B7C5D9; }
         .reply-link { color: #34345C; text-decoration: underline; cursor: pointer; }
-        .reply-link:hover { color: #ff0000; }
-        
         .post-message { color: #000; line-height: 1.4em; word-wrap: break-word; white-space: pre-wrap; font-size: 11pt; }
         .post-media { max-width: 100%; max-height: 400px; display: block; margin: 10px 0; border: 1px solid #AAA; }
 
-        /* COLORES DE TEXTO */
-        .quote-text { color: #789922; } /* Greentext > */
-        .reply-quote { color: #dd0000; font-weight: bold; } /* Cita >>123 */
+        /* TEXT HELPERS */
+        .quote-text { color: #789922; } 
+        .reply-quote { color: #dd0000; font-weight: bold; }
 
         #toggleDark { position: fixed; top: 10px; right: 10px; padding: 8px; cursor: pointer; z-index: 100; border-radius: 50%; border: 1px solid #777; background: #eee; }
 
         @media (min-width: 600px) {
-            header h1 { font-size: 36pt; }
             .post-media { max-width: 250px; float: left; margin-right: 20px; }
             .post::after { content: ""; display: table; clear: both; }
         }
@@ -80,7 +76,6 @@
     <svg class="libelula" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="50" cy="50" rx="4" ry="25" fill="#00796B" transform="rotate(-15 50 50)"/>
         <circle cx="43" cy="30" r="6" fill="#00796B"/>
-        <circle cx="41" cy="28" r="2" fill="white"/><circle cx="45" cy="30" r="2" fill="white"/>
         <ellipse cx="65" cy="35" rx="25" ry="8" fill="rgba(0, 188, 212, 0.6)" transform="rotate(-30 65 35)"/>
         <ellipse cx="30" cy="55" rx="25" ry="8" fill="rgba(0, 188, 212, 0.6)" transform="rotate(-30 30 55)"/>
     </svg>
@@ -89,13 +84,13 @@
 <div class="post-form">
     <table>
         <tr><td style="background-color: #98E; color: white;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
-        <tr><td style="background-color: #98E; color: white;">Mensaje</td><td><textarea id="comentario" rows="4" placeholder="Usa '>' para greentext o toca un No. para responder"></textarea></td></tr>
+        <tr><td style="background-color: #98E; color: white;">Mensaje</td><td><textarea id="comentario" rows="4" placeholder="Escribe aquí..."></textarea></td></tr>
         <tr><td style="background-color: #98E; color: white;">Archivo</td><td><input type="file" id="archivo" accept="image/*,video/*"></td></tr>
         <tr><td colspan="2"><button id="btnPostear">Enviar Post</button></td></tr>
     </table>
 </div>
 
-<div id="board">Cargando tablón...</div>
+<div id="board">Cargando...</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -104,39 +99,38 @@
     const SUPABASE_KEY = 'sb_publishable_4-KbL6m-qggsp9Kj0cP5Jw_s5bv_FIW';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // --- CONFIGURACIÓN ADMIN ---
     const LLAVE_MAESTRA = "Cristopher.35"; 
 
     const btnPostear = document.getElementById('btnPostear');
     const toggleDark = document.getElementById('toggleDark');
 
-    // Función para citar automáticamente
     function citarPost(id) {
-        const cajaTexto = document.getElementById('comentario');
-        cajaTexto.value += `>>${id}\n`;
-        cajaTexto.focus();
+        const caja = document.getElementById('comentario');
+        caja.value += `>>${id}\n`;
+        caja.focus();
     }
 
-    // Modo Oscuro
     toggleDark.onclick = () => {
         document.body.classList.toggle('dark-mode');
         toggleDark.innerText = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
     };
 
-    // Publicar Post o Respuesta
+    async function borrarPost(id) {
+        if (!confirm("¿Eliminar este post definitivamente?")) return;
+        const { error } = await _supabase.from('posts').delete().eq('id', id);
+        if (error) alert("Error: " + error.message);
+    }
+
     btnPostear.onclick = async () => {
         const rawNombre = document.getElementById('nombre').value.trim();
         const mensaje = document.getElementById('comentario').value;
         const archivo = document.getElementById('archivo').files[0];
 
-        if (!mensaje && !archivo) return alert("El post está vacío.");
+        if (!mensaje && !archivo) return alert("Post vacío.");
 
         let nombreFinal = rawNombre || "Anónimo";
-        if (rawNombre === LLAVE_MAESTRA) {
-            nombreFinal = "### RootMaster ###";
-        }
+        if (rawNombre === LLAVE_MAESTRA) nombreFinal = "### RootMaster ###";
 
-        // Detectar si es una respuesta (buscando >>ID al inicio)
         let parentId = null;
         const match = mensaje.match(/^>>(\d+)/);
         if (match) parentId = parseInt(match[1]);
@@ -148,27 +142,20 @@
         try {
             if (archivo) {
                 const nombreArchivo = Date.now() + "_" + archivo.name;
-                const { data, error } = await _supabase.storage.from('archivos').upload(nombreArchivo, archivo);
-                if (error) throw error;
+                const { data, error: upError } = await _supabase.storage.from('archivos').upload(nombreArchivo, archivo);
+                if (upError) throw upError;
                 const { data: urlData } = _supabase.storage.from('archivos').getPublicUrl(nombreArchivo);
                 publicURL = urlData.publicUrl;
             }
 
-            const { error: insertError } = await _supabase
+            const { error: insError } = await _supabase
                 .from('posts')
-                .insert([{ 
-                    nombre: nombreFinal, 
-                    mensaje: mensaje, 
-                    url: publicURL,
-                    parent_id: parentId 
-                }]);
+                .insert([{ nombre: nombreFinal, mensaje: mensaje, url: publicURL, parent_id: parentId }]);
 
-            if (insertError) throw insertError;
+            if (insError) throw insError;
 
             document.getElementById('comentario').value = "";
             document.getElementById('archivo').value = "";
-            if (rawNombre !== LLAVE_MAESTRA) document.getElementById('nombre').value = "";
-            
         } catch (err) {
             alert("Error: " + err.message);
         } finally {
@@ -178,62 +165,55 @@
     };
 
     async function cargarPosts() {
-        const { data: posts, error } = await _supabase
-            .from('posts')
-            .select('*')
-            .order('id', { ascending: false });
-
+        const { data: posts, error } = await _supabase.from('posts').select('*').order('id', { ascending: false });
         if (error) return;
 
         const board = document.getElementById('board');
+        const miNombre = document.getElementById('nombre').value.trim();
+        const soyAdmin = (miNombre === LLAVE_MAESTRA);
+        
         board.innerHTML = "";
-
         posts.forEach(post => {
             let mediaHtml = "";
             if (post.url) {
-                const urlLower = post.url.toLowerCase();
-                if (urlLower.includes('.mp4') || urlLower.includes('.webm') || urlLower.includes('.mov')) {
-                    mediaHtml = `<video src="${post.url}" class="post-media" controls preload="metadata"></video>`;
-                } else {
-                    mediaHtml = `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media"></a>`;
-                }
+                const isVid = post.url.match(/\.(mp4|webm|mov)$/i);
+                mediaHtml = isVid ? 
+                    `<video src="${post.url}" class="post-media" controls></video>` : 
+                    `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media"></a>`;
             }
 
-            const esAdmin = post.nombre.includes("RootMaster");
-            const esRespuesta = post.parent_id !== null;
+            const esAdminPost = post.nombre.includes("RootMaster");
+            const btnEliminar = soyAdmin ? `<span class="btn-delete" onclick="borrarPost(${post.id})">[BORRAR]</span>` : "";
             
-            // Procesar Greentext (>) y Citas (>>)
             const lineas = (post.mensaje || "").split('\n');
-            const mensajeProcesado = lineas.map(linea => {
-                let l = linea.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                if (l.startsWith("&gt;&gt;")) {
-                    return `<span class="reply-quote">${l}</span>`;
-                } else if (l.startsWith("&gt;")) {
-                    return `<span class="quote-text">${l}</span>`;
-                }
-                return l;
+            const msgH = lineas.map(l => {
+                let s = l.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                if (s.startsWith("&gt;&gt;")) return `<span class="reply-quote">${s}</span>`;
+                if (s.startsWith("&gt;")) return `<span class="quote-text">${s}</span>`;
+                return s;
             }).join('<br>');
 
             board.innerHTML += `
-                <div class="post ${esAdmin ? 'post-admin' : ''} ${esRespuesta ? 'is-reply' : ''}" id="p${post.id}">
+                <div class="post ${esAdminPost ? 'post-admin' : ''} ${post.parent_id ? 'is-reply' : ''}">
                     <div class="post-info">
-                        <span class="${esAdmin ? 'name-admin' : ''}">${post.nombre}</span> 
+                        <span class="${esAdminPost ? 'name-admin' : ''}">${post.nombre}</span> 
                         | ${new Date(post.created_at).toLocaleString()} 
                         | <span class="reply-link" onclick="citarPost(${post.id})">No.${post.id}</span>
+                        ${btnEliminar}
                     </div>
                     ${mediaHtml}
-                    <div class="post-message">${mensajeProcesado}</div>
+                    <div class="post-message">${msgH}</div>
                 </div>`;
         });
     }
 
-    // REALTIME: Escuchar nuevos posts e hilos al instante
-    _supabase
-        .channel('public:posts')
-        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'posts' }, () => {
-            cargarPosts();
-        })
-        .subscribe();
+    // Escuchar cualquier cambio (insert o delete)
+    _supabase.channel('custom-all-channel').on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, () => {
+        cargarPosts();
+    }).subscribe();
+
+    // Actualizar botones al escribir la clave
+    document.getElementById('nombre').oninput = cargarPosts;
 
     cargarPosts();
 </script>
