@@ -2,7 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>6Chan - Tablero Global</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>6Chan - App</title>
+    
+    <meta name="theme-color" content="#E0F2F1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <style>
         /* --- ESTILOS GLOBALES --- */
         body { 
@@ -13,7 +19,8 @@
             font-family: arial,helvetica,sans-serif; 
             font-size: 10pt; 
             margin: 0; 
-            padding: 5px; 
+            padding: 10px; 
+            overflow-x: hidden;
         }
 
         header { 
@@ -26,31 +33,64 @@
         }
         header h1 { 
             color: #AF0A0F; 
-            font-size: 36pt; 
+            font-size: 28pt; 
             margin: 0; 
-            font-weight: bold; 
             text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
-        .libelula { width: 50px; height: 50px; opacity: 0.9; }
+        .libelula { width: 45px; height: 45px; }
 
-        .post-form { display: flex; justify-content: center; margin: 10px 0 30px 0; }
-        .post-form table { background-color: #D6DAF0; border: 1px solid #B7C5D9; border-collapse: collapse; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
-        .post-form td { border: 1px solid #B7C5D9; padding: 3px 6px; }
-        .post-form input[type="text"], .post-form textarea { border: 1px solid #AAA; font-family: arial; font-size: 10pt; padding: 2px; width: 350px; box-sizing: border-box; }
-        .post-form textarea { height: 120px; resize: vertical; }
-        #btnPostear { font-size: 11pt; padding: 4px 15px; cursor: pointer; background-color: #eee; border: 1px solid #777; font-weight: bold; }
+        /* --- FORMULARIO ADAPTADO A MÓVIL --- */
+        .post-form { display: flex; justify-content: center; margin-bottom: 25px; width: 100%; }
+        .post-form table { background-color: #D6DAF0; border: 1px solid #B7C5D9; border-collapse: collapse; width: 100%; max-width: 500px; }
+        .post-form td { border: 1px solid #B7C5D9; padding: 6px; }
+        .post-form input[type="text"], .post-form textarea { 
+            border: 1px solid #AAA; 
+            font-size: 11pt; 
+            padding: 8px; 
+            width: 100%; 
+            box-sizing: border-box; 
+        }
+        .post-form textarea { height: 100px; }
+        #btnPostear { 
+            width: 100%; 
+            padding: 12px; 
+            font-size: 12pt; 
+            background-color: #eee; 
+            border: 1px solid #777; 
+            font-weight: bold; 
+            cursor: pointer;
+        }
 
-        #board { margin: 20px auto; max-width: 1000px; }
-        .post { background-color: #D6DAF0; border: 1px solid #B7C5D9; padding: 8px 12px; margin-bottom: 10px; display: table; clear: both; box-shadow: 1px 1px 3px rgba(0,0,0,0.1); }
-        .post-info { font-size: 9pt; color: #117743; font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid #B7C5D9; padding-bottom: 3px; }
-        .post-info .date-time { color: #000; font-weight: normal; }
+        /* --- TABLERO Y POSTS ADAPTADOS --- */
+        #board { margin: 0 auto; max-width: 1000px; }
+        .post { 
+            background-color: #D6DAF0; 
+            border: 1px solid #B7C5D9; 
+            padding: 10px; 
+            margin-bottom: 12px; 
+            width: 100%; 
+            box-sizing: border-box;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        .post-info { font-size: 9pt; color: #117743; font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid #B7C5D9; }
         
-        .post-message { color: #000; margin-top: 5px; line-height: 1.4em; word-wrap: break-word; white-space: pre-wrap; }
+        .post-message { color: #000; line-height: 1.4em; word-wrap: break-word; white-space: pre-wrap; font-size: 11pt; }
         .post-message:first-line { color: #789922; }
 
-        .post-media { max-width: 250px; max-height: 250px; float: left; margin: 5px 20px 10px 0; border: 1px solid #AAA; padding: 2px; background: #fff; }
-        video.post-media { max-width: 350px; max-height: 350px; }
-        .post::after { content: ""; display: table; clear: both; }
+        .post-media { 
+            max-width: 100%; 
+            max-height: 400px; 
+            display: block; 
+            margin: 10px 0; 
+            border: 1px solid #AAA; 
+        }
+
+        /* --- MEDIA QUERIES PARA PC --- */
+        @media (min-width: 600px) {
+            header h1 { font-size: 36pt; }
+            .post-media { max-width: 250px; float: left; margin-right: 20px; }
+            .post::after { content: ""; display: table; clear: both; }
+        }
     </style>
 </head>
 <body>
@@ -71,14 +111,14 @@
 
 <div class="post-form">
     <table>
-        <tr><td style="background-color: #98E; color: white;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
+        <tr><td style="background-color: #98E; color: white; width: 80px;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
         <tr><td style="background-color: #98E; color: white;">Mensaje</td><td><textarea id="comentario" placeholder="Usa '>' para greentext"></textarea></td></tr>
         <tr><td style="background-color: #98E; color: white;">Archivo</td><td><input type="file" id="archivo" accept="image/*,video/*"></td></tr>
         <tr><td colspan="2" style="text-align: center;"><button id="btnPostear">Enviar Post</button></td></tr>
     </table>
 </div>
 
-<div id="board">Cargando 6Chan...</div>
+<div id="board">Cargando 6Chan App...</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -141,15 +181,14 @@
             let mediaHtml = "";
             if (post.url) {
                 const urlLower = post.url.toLowerCase();
-                if (urlLower.includes('.mp4') || urlLower.includes('.webm')) {
-                    mediaHtml = `<video src="${post.url}" class="post-media" controls></video>`;
+                if (urlLower.includes('.mp4') || urlLower.includes('.webm') || urlLower.includes('.mov')) {
+                    mediaHtml = `<video src="${post.url}" class="post-media" controls preload="metadata"></video>`;
                 } else {
                     mediaHtml = `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media"></a>`;
                 }
             }
 
             const fecha = new Date(post.created_at).toLocaleString();
-            
             const mensajeSeguro = (post.mensaje || "")
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
@@ -157,7 +196,7 @@
 
             board.innerHTML += `
                 <div class="post">
-                    <div class="post-info">Nombre: <span style="color:#117743">${post.nombre}</span> | ${fecha} | No.${post.id}</div>
+                    <div class="post-info">${post.nombre} | ${fecha} | No.${post.id}</div>
                     ${mediaHtml}
                     <div class="post-message">${mensajeSeguro}</div>
                 </div>`;
