@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>6Chan - App</title>
+    <title>6Chan - App Oficial</title>
     
     <meta name="theme-color" content="#E0F2F1">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <style>
-        /* --- ESTILOS GLOBALES --- */
+        /* --- ESTILOS INSPIRADOS EN IMAGEBOARDS --- */
         body { 
             background-color: #E0F2F1; 
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Ctext x='0' y='30' font-family='Arial' font-size='10' fill='%23009688' fill-opacity='0.1' transform='rotate(-30 40 20)'%3E6chan 6chan 6chan%3C/text%3E%3C/svg%3E");
-            background-repeat: repeat;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Ctext x='0' y='30' font-family='Arial' font-size='10' fill='%23009688' fill-opacity='0.1' transform='rotate(-30 40 20)'%3E6chan 6chan%3C/text%3E%3C/svg%3E");
             color: #800000; 
             font-family: arial,helvetica,sans-serif; 
             font-size: 10pt; 
@@ -29,6 +28,7 @@
         .dark-mode .post-message { color: #c5c8c6; }
         .dark-mode .post-info { color: #b294bb; }
         .dark-mode #btnPostear { background-color: #373b41; color: #eee; }
+        .dark-mode .post.is-reply { background-color: rgba(40, 42, 46, 0.7); border-left: 3px solid #444; }
 
         header { text-align: center; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; gap: 15px; }
         header h1 { color: #AF0A0F; font-size: 28pt; margin: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
@@ -46,14 +46,23 @@
         .post-form input, .post-form textarea { border: 1px solid #AAA; font-size: 11pt; padding: 8px; width: 100%; box-sizing: border-box; }
         #btnPostear { width: 100%; padding: 12px; font-size: 12pt; background-color: #eee; border: 1px solid #777; font-weight: bold; cursor: pointer; }
 
-        /* POSTS */
+        /* POSTS Y RESPUESTAS */
         #board { margin: 0 auto; max-width: 1000px; }
-        .post { background-color: #D6DAF0; border: 1px solid #B7C5D9; padding: 10px; margin-bottom: 12px; box-shadow: 1px 1px 3px rgba(0,0,0,0.1); }
+        .post { background-color: #D6DAF0; border: 1px solid #B7C5D9; padding: 10px; margin-bottom: 12px; box-shadow: 1px 1px 3px rgba(0,0,0,0.1); position: relative; }
+        .post.is-reply { margin-left: 30px; border-left: 3px solid #B7C5D9; background-color: rgba(214, 218, 240, 0.7); }
+        
         .post-info { font-size: 9pt; color: #117743; font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid #B7C5D9; }
+        .reply-link { color: #34345C; text-decoration: underline; cursor: pointer; }
+        .reply-link:hover { color: #ff0000; }
+        
         .post-message { color: #000; line-height: 1.4em; word-wrap: break-word; white-space: pre-wrap; font-size: 11pt; }
         .post-media { max-width: 100%; max-height: 400px; display: block; margin: 10px 0; border: 1px solid #AAA; }
 
-        #toggleDark { position: fixed; top: 10px; right: 10px; padding: 8px; cursor: pointer; z-index: 100; border-radius: 50%; border: 1px solid #777; }
+        /* COLORES DE TEXTO */
+        .quote-text { color: #789922; } /* Greentext > */
+        .reply-quote { color: #dd0000; font-weight: bold; } /* Cita >>123 */
+
+        #toggleDark { position: fixed; top: 10px; right: 10px; padding: 8px; cursor: pointer; z-index: 100; border-radius: 50%; border: 1px solid #777; background: #eee; }
 
         @media (min-width: 600px) {
             header h1 { font-size: 36pt; }
@@ -80,13 +89,13 @@
 <div class="post-form">
     <table>
         <tr><td style="background-color: #98E; color: white;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
-        <tr><td style="background-color: #98E; color: white;">Mensaje</td><td><textarea id="comentario" placeholder="Usa '>' para greentext"></textarea></td></tr>
+        <tr><td style="background-color: #98E; color: white;">Mensaje</td><td><textarea id="comentario" rows="4" placeholder="Usa '>' para greentext o toca un No. para responder"></textarea></td></tr>
         <tr><td style="background-color: #98E; color: white;">Archivo</td><td><input type="file" id="archivo" accept="image/*,video/*"></td></tr>
         <tr><td colspan="2"><button id="btnPostear">Enviar Post</button></td></tr>
     </table>
 </div>
 
-<div id="board">Cargando 6Chan App...</div>
+<div id="board">Cargando tablón...</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -96,10 +105,17 @@
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     // --- CONFIGURACIÓN ADMIN ---
-    const LLAVE_MAESTRA = "Cristopher.35"; // <--- CAMBIA ESTO
+    const LLAVE_MAESTRA = "Cristopher.35"; 
 
     const btnPostear = document.getElementById('btnPostear');
     const toggleDark = document.getElementById('toggleDark');
+
+    // Función para citar automáticamente
+    function citarPost(id) {
+        const cajaTexto = document.getElementById('comentario');
+        cajaTexto.value += `>>${id}\n`;
+        cajaTexto.focus();
+    }
 
     // Modo Oscuro
     toggleDark.onclick = () => {
@@ -107,18 +123,23 @@
         toggleDark.innerText = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
     };
 
-    // Publicar
+    // Publicar Post o Respuesta
     btnPostear.onclick = async () => {
         const rawNombre = document.getElementById('nombre').value.trim();
         const mensaje = document.getElementById('comentario').value;
         const archivo = document.getElementById('archivo').files[0];
 
-        if (!mensaje && !archivo) return alert("Escribe algo.");
+        if (!mensaje && !archivo) return alert("El post está vacío.");
 
         let nombreFinal = rawNombre || "Anónimo";
         if (rawNombre === LLAVE_MAESTRA) {
             nombreFinal = "### RootMaster ###";
         }
+
+        // Detectar si es una respuesta (buscando >>ID al inicio)
+        let parentId = null;
+        const match = mensaje.match(/^>>(\d+)/);
+        if (match) parentId = parseInt(match[1]);
 
         btnPostear.disabled = true;
         btnPostear.innerText = "Subiendo...";
@@ -135,7 +156,12 @@
 
             const { error: insertError } = await _supabase
                 .from('posts')
-                .insert([{ nombre: nombreFinal, mensaje: mensaje, url: publicURL }]);
+                .insert([{ 
+                    nombre: nombreFinal, 
+                    mensaje: mensaje, 
+                    url: publicURL,
+                    parent_id: parentId 
+                }]);
 
             if (insertError) throw insertError;
 
@@ -143,7 +169,6 @@
             document.getElementById('archivo').value = "";
             if (rawNombre !== LLAVE_MAESTRA) document.getElementById('nombre').value = "";
             
-            // No llamamos a cargarPosts() aquí porque el Realtime lo hará solo
         } catch (err) {
             alert("Error: " + err.message);
         } finally {
@@ -162,6 +187,7 @@
 
         const board = document.getElementById('board');
         board.innerHTML = "";
+
         posts.forEach(post => {
             let mediaHtml = "";
             if (post.url) {
@@ -173,21 +199,27 @@
                 }
             }
 
-            const fecha = new Date(post.created_at).toLocaleString();
             const esAdmin = post.nombre.includes("RootMaster");
+            const esRespuesta = post.parent_id !== null;
             
-            // Greentext y escape de HTML
+            // Procesar Greentext (>) y Citas (>>)
             const lineas = (post.mensaje || "").split('\n');
             const mensajeProcesado = lineas.map(linea => {
-                const l = linea.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                return l.startsWith("&gt;") ? `<span style="color:#789922;">${l}</span>` : l;
+                let l = linea.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                if (l.startsWith("&gt;&gt;")) {
+                    return `<span class="reply-quote">${l}</span>`;
+                } else if (l.startsWith("&gt;")) {
+                    return `<span class="quote-text">${l}</span>`;
+                }
+                return l;
             }).join('<br>');
 
             board.innerHTML += `
-                <div class="post ${esAdmin ? 'post-admin' : ''}">
+                <div class="post ${esAdmin ? 'post-admin' : ''} ${esRespuesta ? 'is-reply' : ''}" id="p${post.id}">
                     <div class="post-info">
                         <span class="${esAdmin ? 'name-admin' : ''}">${post.nombre}</span> 
-                        | ${fecha} | No.${post.id}
+                        | ${new Date(post.created_at).toLocaleString()} 
+                        | <span class="reply-link" onclick="citarPost(${post.id})">No.${post.id}</span>
                     </div>
                     ${mediaHtml}
                     <div class="post-message">${mensajeProcesado}</div>
@@ -195,7 +227,7 @@
         });
     }
 
-    // REALTIME: Escuchar nuevos posts
+    // REALTIME: Escuchar nuevos posts e hilos al instante
     _supabase
         .channel('public:posts')
         .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'posts' }, () => {
