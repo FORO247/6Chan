@@ -3,169 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>6Chan - Panel de Administración</title>
-    
-    <meta name="theme-color" content="#E0F2F1">
-    <meta name="mobile-web-app-capable" content="yes">
-
+    <title>6Chan - Red de Tablones</title>
     <style>
-        /* --- ESTILOS --- */
+        /* Mantenemos tu estética original */
         body { 
             background-color: #E0F2F1; 
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Ctext x='0' y='30' font-family='Arial' font-size='10' fill='%23009688' fill-opacity='0.1' transform='rotate(-30 40 20)'%3E6chan%3C/text%3E%3C/svg%3E");
-            color: #800000; 
-            font-family: arial,helvetica,sans-serif; 
-            font-size: 10pt; 
-            margin: 0; 
-            padding: 10px; 
-            transition: background 0.3s;
+            color: #800000; font-family: arial,helvetica,sans-serif; margin: 0; padding: 0;
         }
 
-        /* MODO OSCURO */
-        body.dark-mode { background-color: #1d1f21; color: #c5c8c6; background-image: none; }
-        .dark-mode .post, .dark-mode .post-form table { background-color: #282a2e; border-color: #373b41; }
-        .dark-mode .post-message { color: #c5c8c6; }
-        .dark-mode .post-info { color: #b294bb; }
-        .dark-mode #btnPostear { background-color: #373b41; color: #eee; }
-        .dark-mode .post.is-reply { background-color: rgba(40, 42, 46, 0.7); }
-
-        header { text-align: center; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; gap: 15px; }
-        header h1 { color: #AF0A0F; font-size: 28pt; margin: 0; }
-        .libelula { width: 45px; height: 45px; }
-
-        /* ADMIN STYLE */
-        .post-admin { border: 2px solid #AF0A0F !important; background-color: #FFF0F0 !important; }
-        .name-admin { color: #FF0000 !important; font-weight: bold; text-transform: uppercase; }
-        .btn-delete { color: #FF0000; cursor: pointer; font-weight: bold; margin-left: 10px; font-size: 8pt; text-decoration: none; }
-        .btn-delete:hover { background-color: #f00; color: #fff; }
-
-        /* FORM */
-        .post-form { display: flex; justify-content: center; margin-bottom: 25px; }
-        .post-form table { background-color: #D6DAF0; border: 1px solid #B7C5D9; border-collapse: collapse; width: 100%; max-width: 500px; }
-        .post-form td { border: 1px solid #B7C5D9; padding: 6px; }
-        .post-form input, .post-form textarea { border: 1px solid #AAA; font-size: 11pt; padding: 8px; width: 100%; box-sizing: border-box; }
-        #btnPostear { width: 100%; padding: 12px; font-size: 12pt; background-color: #eee; border: 1px solid #777; font-weight: bold; cursor: pointer; }
-
-        /* POSTS */
-        #board { margin: 0 auto; max-width: 1000px; }
-        .post { background-color: #D6DAF0; border: 1px solid #B7C5D9; padding: 10px; margin-bottom: 12px; box-shadow: 1px 1px 3px rgba(0,0,0,0.1); }
-        .post.is-reply { margin-left: 30px; border-left: 3px solid #B7C5D9; background-color: rgba(214, 218, 240, 0.7); }
-        .post-info { font-size: 9pt; color: #117743; font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid #B7C5D9; }
-        .reply-link { color: #34345C; text-decoration: underline; cursor: pointer; }
-        .post-message { color: #000; line-height: 1.4em; word-wrap: break-word; white-space: pre-wrap; font-size: 11pt; }
-        .post-media { max-width: 100%; max-height: 400px; display: block; margin: 10px 0; border: 1px solid #AAA; }
-
-        /* TEXT HELPERS */
-        .quote-text { color: #789922; } 
-        .reply-quote { color: #dd0000; font-weight: bold; }
-
-        #toggleDark { position: fixed; top: 10px; right: 10px; padding: 8px; cursor: pointer; z-index: 100; border-radius: 50%; border: 1px solid #777; background: #eee; }
-
-        @media (min-width: 600px) {
-            .post-media { max-width: 250px; float: left; margin-right: 20px; }
-            .post::after { content: ""; display: table; clear: both; }
+        /* Pantalla de Inicio */
+        #home-screen { text-align: center; padding: 50px 20px; }
+        .legal-notice { 
+            max-width: 600px; margin: 20px auto; padding: 15px; 
+            background: rgba(255,255,255,0.7); border: 1px solid #AF0A0F; 
+            font-size: 0.9em; font-style: italic; color: #444;
         }
+
+        /* Navegación de Salas */
+        nav { background: #98E; padding: 10px; text-align: center; position: sticky; top: 0; z-index: 1000; }
+        nav a { color: white; margin: 0 10px; text-decoration: none; font-weight: bold; cursor: pointer; }
+        nav a:hover { text-decoration: underline; }
+
+        /* Ventana de Chat */
+        #chat-window { display: none; padding: 20px; max-width: 1000px; margin: 0 auto; }
+        .window-header { background: #AF0A0F; color: white; padding: 10px; margin-bottom: 20px; text-align: center; }
+
+        /* Reutilizamos tus estilos de posts */
+        .post { background-color: #D6DAF0; border: 1px solid #B7C5D9; padding: 10px; margin-bottom: 12px; }
+        .is-reply { margin-left: 30px; border-left: 3px solid #B7C5D9; }
+        .post-info { font-size: 9pt; color: #117743; font-weight: bold; border-bottom: 1px solid #B7C5D9; margin-bottom: 8px; }
+        .post-message { color: #000; white-space: pre-wrap; }
+        .post-media { max-width: 100%; max-height: 300px; display: block; margin: 10px 0; }
+        .name-admin { color: #FF0000 !important; font-weight: bold; }
+        .btn-delete { color: red; cursor: pointer; font-size: 8pt; margin-left: 10px; }
+
+        /* Formulario */
+        .post-form table { background-color: #D6DAF0; border: 1px solid #B7C5D9; width: 100%; max-width: 500px; margin: 0 auto 20px auto; border-collapse: collapse; }
+        .post-form td { border: 1px solid #B7C5D9; padding: 5px; }
+        input, textarea { width: 100%; box-sizing: border-box; padding: 8px; }
+        #btnPostear { width: 100%; padding: 10px; background: #eee; font-weight: bold; cursor: pointer; }
+
+        .libelula { width: 80px; height: 80px; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-<button id="toggleDark">🌙</button>
+<nav id="menu-salas">
+    <a onclick="irAHome()">[ Inicio ]</a>
+    <a onclick="abrirSala('b', 'Random')">/b/ - Random</a>
+    <a onclick="abrirSala('vg', 'Videojuegos')">/vg/ - Videojuegos</a>
+    <a onclick="abrirSala('tech', 'Tecnología')">/tech/ - Tech</a>
+</nav>
 
-<header>
-    <h1>6Chan</h1>
-    <svg class="libelula" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<div id="home-screen">
+    <svg class="libelula" viewBox="0 0 100 100">
         <ellipse cx="50" cy="50" rx="4" ry="25" fill="#00796B" transform="rotate(-15 50 50)"/>
         <circle cx="43" cy="30" r="6" fill="#00796B"/>
         <ellipse cx="65" cy="35" rx="25" ry="8" fill="rgba(0, 188, 212, 0.6)" transform="rotate(-30 65 35)"/>
         <ellipse cx="30" cy="55" rx="25" ry="8" fill="rgba(0, 188, 212, 0.6)" transform="rotate(-30 30 55)"/>
     </svg>
-</header>
-
-<div class="post-form">
-    <table>
-        <tr><td style="background-color: #98E; color: white;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
-        <tr><td style="background-color: #98E; color: white;">Mensaje</td><td><textarea id="comentario" rows="4" placeholder="Escribe aquí..."></textarea></td></tr>
-        <tr><td style="background-color: #98E; color: white;">Archivo</td><td><input type="file" id="archivo" accept="image/*,video/*"></td></tr>
-        <tr><td colspan="2"><button id="btnPostear">Enviar Post</button></td></tr>
-    </table>
+    <h1>Bienvenido a 6Chan</h1>
+    <p>Selecciona una sala en el menú superior para empezar a postear.</p>
+    <div class="legal-notice">
+        “El usuario es el único responsable del contenido que publica. La plataforma actúa como intermediaria y podrá remover contenido y/o suspender cuentas ante incumplimientos o requerimientos legales.”
+    </div>
 </div>
 
-<div id="board">Cargando...</div>
+<div id="chat-window">
+    <div class="window-header">
+        <h2 id="titulo-sala">Sala</h2>
+    </div>
+
+    <div class="post-form">
+        <table>
+            <tr><td>Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
+            <tr><td>Mensaje</td><td><textarea id="comentario" rows="3" placeholder="Escribe algo..."></textarea></td></tr>
+            <tr><td>Archivo</td><td><input type="file" id="archivo" accept="image/*,video/*"></td></tr>
+            <tr><td colspan="2"><button id="btnPostear">Enviar Post</button></td></tr>
+        </table>
+    </div>
+
+    <div id="board">Cargando mensajes...</div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
     const SUPABASE_URL = 'https://lpdgjcnlweezlnqvufgq.supabase.co'; 
     const SUPABASE_KEY = 'sb_publishable_4-KbL6m-qggsp9Kj0cP5Jw_s5bv_FIW';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     const LLAVE_MAESTRA = "Cristopher.35"; 
+    let salaActual = 'home';
 
-    const btnPostear = document.getElementById('btnPostear');
-    const toggleDark = document.getElementById('toggleDark');
-
-    function citarPost(id) {
-        const caja = document.getElementById('comentario');
-        caja.value += `>>${id}\n`;
-        caja.focus();
+    // Navegación
+    function irAHome() {
+        salaActual = 'home';
+        document.getElementById('home-screen').classList.remove('hidden');
+        document.getElementById('chat-window').style.display = 'none';
     }
 
-    toggleDark.onclick = () => {
-        document.body.classList.toggle('dark-mode');
-        toggleDark.innerText = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    };
-
-    async function borrarPost(id) {
-        if (!confirm("¿Eliminar este post definitivamente?")) return;
-        const { error } = await _supabase.from('posts').delete().eq('id', id);
-        if (error) alert("Error: " + error.message);
+    async function abrirSala(idSala, nombreSala) {
+        salaActual = idSala;
+        document.getElementById('home-screen').classList.add('hidden');
+        document.getElementById('chat-window').style.display = 'block';
+        document.getElementById('titulo-sala').innerText = `/${idSala}/ - ${nombreSala}`;
+        cargarPosts();
     }
-
-    btnPostear.onclick = async () => {
-        const rawNombre = document.getElementById('nombre').value.trim();
-        const mensaje = document.getElementById('comentario').value;
-        const archivo = document.getElementById('archivo').files[0];
-
-        if (!mensaje && !archivo) return alert("Post vacío.");
-
-        let nombreFinal = rawNombre || "Anónimo";
-        if (rawNombre === LLAVE_MAESTRA) nombreFinal = "### RootMaster ###";
-
-        let parentId = null;
-        const match = mensaje.match(/^>>(\d+)/);
-        if (match) parentId = parseInt(match[1]);
-
-        btnPostear.disabled = true;
-        btnPostear.innerText = "Subiendo...";
-
-        let publicURL = null;
-        try {
-            if (archivo) {
-                const nombreArchivo = Date.now() + "_" + archivo.name;
-                const { data, error: upError } = await _supabase.storage.from('archivos').upload(nombreArchivo, archivo);
-                if (upError) throw upError;
-                const { data: urlData } = _supabase.storage.from('archivos').getPublicUrl(nombreArchivo);
-                publicURL = urlData.publicUrl;
-            }
-
-            const { error: insError } = await _supabase
-                .from('posts')
-                .insert([{ nombre: nombreFinal, mensaje: mensaje, url: publicURL, parent_id: parentId }]);
-
-            if (insError) throw insError;
-
-            document.getElementById('comentario').value = "";
-            document.getElementById('archivo').value = "";
-        } catch (err) {
-            alert("Error: " + err.message);
-        } finally {
-            btnPostear.disabled = false;
-            btnPostear.innerText = "Enviar Post";
-        }
-    };
 
     async function cargarPosts() {
-        const { data: posts, error } = await _supabase.from('posts').select('*').order('id', { ascending: false });
+        if(salaActual === 'home') return;
+
+        // Filtramos por la sala actual
+        const { data: posts, error } = await _supabase
+            .from('posts')
+            .select('*')
+            .eq('board', salaActual) // ESTA ES LA CLAVE: Solo carga lo de esta sala
+            .order('id', { ascending: false });
+
         if (error) return;
 
         const board = document.getElementById('board');
@@ -174,48 +130,57 @@
         
         board.innerHTML = "";
         posts.forEach(post => {
-            let mediaHtml = "";
-            if (post.url) {
-                const isVid = post.url.match(/\.(mp4|webm|mov)$/i);
-                mediaHtml = isVid ? 
-                    `<video src="${post.url}" class="post-media" controls></video>` : 
-                    `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media"></a>`;
-            }
-
+            let mediaHtml = post.url ? `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media"></a>` : "";
             const esAdminPost = post.nombre.includes("RootMaster");
             const btnEliminar = soyAdmin ? `<span class="btn-delete" onclick="borrarPost(${post.id})">[BORRAR]</span>` : "";
-            
-            const lineas = (post.mensaje || "").split('\n');
-            const msgH = lineas.map(l => {
-                let s = l.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                if (s.startsWith("&gt;&gt;")) return `<span class="reply-quote">${s}</span>`;
-                if (s.startsWith("&gt;")) return `<span class="quote-text">${s}</span>`;
-                return s;
-            }).join('<br>');
 
             board.innerHTML += `
                 <div class="post ${esAdminPost ? 'post-admin' : ''} ${post.parent_id ? 'is-reply' : ''}">
                     <div class="post-info">
                         <span class="${esAdminPost ? 'name-admin' : ''}">${post.nombre}</span> 
-                        | ${new Date(post.created_at).toLocaleString()} 
-                        | <span class="reply-link" onclick="citarPost(${post.id})">No.${post.id}</span>
-                        ${btnEliminar}
+                        | No.${post.id} ${btnEliminar}
                     </div>
                     ${mediaHtml}
-                    <div class="post-message">${msgH}</div>
+                    <div class="post-message">${post.mensaje}</div>
                 </div>`;
         });
     }
 
-    // Escuchar cualquier cambio (insert o delete)
-    _supabase.channel('custom-all-channel').on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, () => {
+    document.getElementById('btnPostear').onclick = async () => {
+        const rawNombre = document.getElementById('nombre').value.trim();
+        const mensaje = document.getElementById('comentario').value;
+        const archivo = document.getElementById('archivo').files[0];
+
+        if (!mensaje && !archivo) return;
+
+        let nombreFinal = rawNombre || "Anónimo";
+        if (rawNombre === LLAVE_MAESTRA) nombreFinal = "### RootMaster ###";
+
+        let publicURL = null;
+        if (archivo) {
+            const nA = Date.now() + "_" + archivo.name;
+            await _supabase.storage.from('archivos').upload(nA, archivo);
+            publicURL = _supabase.storage.from('archivos').getPublicUrl(nA).data.publicUrl;
+        }
+
+        await _supabase.from('posts').insert([{ 
+            nombre: nombreFinal, 
+            mensaje: mensaje, 
+            url: publicURL, 
+            board: salaActual // Guardamos en qué sala se posteó
+        }]);
+
+        document.getElementById('comentario').value = "";
+    };
+
+    // Escuchar cambios Realtime
+    _supabase.channel('any').on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, () => {
         cargarPosts();
     }).subscribe();
 
-    // Actualizar botones al escribir la clave
-    document.getElementById('nombre').oninput = cargarPosts;
-
-    cargarPosts();
+    async function borrarPost(id) {
+        if(confirm("¿Borrar?")) await _supabase.from('posts').delete().eq('id', id);
+    }
 </script>
 </body>
 </html>
