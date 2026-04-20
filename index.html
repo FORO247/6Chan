@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>6Chan - Tablero Global</title>
+    <style>
+        /* --- ESTILOS GLOBALES --- */
+        body { 
+            background-color: #E0F2F1; 
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Ctext x='0' y='30' font-family='Arial' font-size='10' fill='%23009688' fill-opacity='0.1' transform='rotate(-30 40 20)'%3E6chan 6chan 6chan%3C/text%3E%3C/svg%3E");
+            background-repeat: repeat;
+            color: #800000; 
+            font-family: arial,helvetica,sans-serif; 
+            font-size: 10pt; 
+            margin: 0; 
+            padding: 5px; 
+        }
+
+        header { 
+            text-align: center; 
+            margin-bottom: 20px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px; 
+        }
+        header h1 { 
+            color: #AF0A0F; 
+            font-size: 36pt; 
+            margin: 0; 
+            font-weight: bold; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        .libelula { width: 50px; height: 50px; opacity: 0.9; }
+
+        .post-form { display: flex; justify-content: center; margin: 10px 0 30px 0; }
+        .post-form table { background-color: #D6DAF0; border: 1px solid #B7C5D9; border-collapse: collapse; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+        .post-form td { border: 1px solid #B7C5D9; padding: 3px 6px; }
+        .post-form input[type="text"], .post-form textarea { border: 1px solid #AAA; font-family: arial; font-size: 10pt; padding: 2px; width: 350px; box-sizing: border-box; }
+        .post-form textarea { height: 120px; resize: vertical; }
+        #btnPostear { font-size: 11pt; padding: 4px 15px; cursor: pointer; background-color: #eee; border: 1px solid #777; font-weight: bold; }
+
+        #board { margin: 20px auto; max-width: 1000px; }
+        .post { background-color: #D6DAF0; border: 1px solid #B7C5D9; padding: 8px 12px; margin-bottom: 10px; display: table; clear: both; box-shadow: 1px 1px 3px rgba(0,0,0,0.1); }
+        .post-info { font-size: 9pt; color: #117743; font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid #B7C5D9; padding-bottom: 3px; }
+        .post-info .date-time { color: #000; font-weight: normal; }
+        
+        .post-message { color: #000; margin-top: 5px; line-height: 1.4em; word-wrap: break-word; white-space: pre-wrap; }
+        .post-message:first-line { color: #789922; }
+
+        .post-media { max-width: 250px; max-height: 250px; float: left; margin: 5px 20px 10px 0; border: 1px solid #AAA; padding: 2px; background: #fff; }
+        video.post-media { max-width: 350px; max-height: 350px; }
+        .post::after { content: ""; display: table; clear: both; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>6Chan</h1>
+    <svg class="libelula" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="50" cy="50" rx="4" ry="25" fill="#00796B" transform="rotate(-15 50 50)"/>
+        <circle cx="43" cy="30" r="6" fill="#00796B"/>
+        <circle cx="41" cy="28" r="2" fill="white"/>
+        <circle cx="45" cy="30" r="2" fill="white"/>
+        <ellipse cx="65" cy="35" rx="25" ry="8" fill="rgba(0, 188, 212, 0.6)" transform="rotate(-30 65 35)"/>
+        <ellipse cx="30" cy="55" rx="25" ry="8" fill="rgba(0, 188, 212, 0.6)" transform="rotate(-30 30 55)"/>
+        <ellipse cx="60" cy="50" rx="20" ry="6" fill="rgba(0, 150, 136, 0.5)" transform="rotate(-20 60 50)"/>
+        <ellipse cx="35" cy="65" rx="20" ry="6" fill="rgba(0, 150, 136, 0.5)" transform="rotate(-20 35 65)"/>
+    </svg>
+</header>
+
+<div class="post-form">
+    <table>
+        <tr><td style="background-color: #98E; color: white;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
+        <tr><td style="background-color: #98E; color: white;">Mensaje</td><td><textarea id="comentario" placeholder="Usa '>' para greentext"></textarea></td></tr>
+        <tr><td style="background-color: #98E; color: white;">Archivo</td><td><input type="file" id="archivo" accept="image/*,video/*"></td></tr>
+        <tr><td colspan="2" style="text-align: center;"><button id="btnPostear">Enviar Post</button></td></tr>
+    </table>
+</div>
+
+<div id="board">Cargando 6Chan...</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    const SUPABASE_URL = 'https://lpdgjcnlweezlnqvufgq.supabase.co'; 
+    const SUPABASE_KEY = 'sb_publishable_4-KbL6m-qggsp9Kj0cP5Jw_s5bv_FIW';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const btnPostear = document.getElementById('btnPostear');
+
+    btnPostear.onclick = async () => {
+        const nombre = document.getElementById('nombre').value || "Anónimo";
+        const mensaje = document.getElementById('comentario').value;
+        const archivo = document.getElementById('archivo').files[0];
+
+        if (!mensaje && !archivo) return alert("Escribe algo.");
+
+        btnPostear.disabled = true;
+        btnPostear.innerText = "Subiendo...";
+
+        let publicURL = null;
+
+        try {
+            if (archivo) {
+                const nombreArchivo = Date.now() + "_" + archivo.name;
+                const { data, error } = await _supabase.storage.from('archivos').upload(nombreArchivo, archivo);
+                if (error) throw error;
+                const { data: urlData } = _supabase.storage.from('archivos').getPublicUrl(nombreArchivo);
+                publicURL = urlData.publicUrl;
+            }
+
+            const { error: insertError } = await _supabase
+                .from('posts')
+                .insert([{ nombre: nombre, mensaje: mensaje, url: publicURL }]);
+
+            if (insertError) throw insertError;
+
+            document.getElementById('comentario').value = "";
+            document.getElementById('archivo').value = "";
+            cargarPosts();
+        } catch (err) {
+            alert("Error: " + err.message);
+        } finally {
+            btnPostear.disabled = false;
+            btnPostear.innerText = "Enviar Post";
+        }
+    };
+
+    async function cargarPosts() {
+        const { data: posts, error } = await _supabase
+            .from('posts')
+            .select('*')
+            .order('id', { ascending: false });
+
+        if (error) return;
+
+        const board = document.getElementById('board');
+        board.innerHTML = "";
+        posts.forEach(post => {
+            let mediaHtml = "";
+            if (post.url) {
+                const urlLower = post.url.toLowerCase();
+                if (urlLower.includes('.mp4') || urlLower.includes('.webm')) {
+                    mediaHtml = `<video src="${post.url}" class="post-media" controls></video>`;
+                } else {
+                    mediaHtml = `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media"></a>`;
+                }
+            }
+
+            const fecha = new Date(post.created_at).toLocaleString();
+            
+            const mensajeSeguro = (post.mensaje || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+
+            board.innerHTML += `
+                <div class="post">
+                    <div class="post-info">Nombre: <span style="color:#117743">${post.nombre}</span> | ${fecha} | No.${post.id}</div>
+                    ${mediaHtml}
+                    <div class="post-message">${mensajeSeguro}</div>
+                </div>`;
+        });
+    }
+
+    cargarPosts();
+    setInterval(cargarPosts, 15000);
+</script>
+</body>
+</html>
