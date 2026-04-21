@@ -3,59 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>6Chan - Red de Tablones</title>
+    <title>6Chan - Tablones</title>
     <style>
-        /* Mantenemos tu estética original */
         body { 
             background-color: #E0F2F1; 
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Ctext x='0' y='30' font-family='Arial' font-size='10' fill='%23009688' fill-opacity='0.1' transform='rotate(-30 40 20)'%3E6chan%3C/text%3E%3C/svg%3E");
             color: #800000; font-family: arial,helvetica,sans-serif; margin: 0; padding: 0;
         }
 
-        /* Pantalla de Inicio */
-        #home-screen { text-align: center; padding: 50px 20px; }
+        /* Pantalla de Inicio Estilizada */
+        #home-screen { text-align: center; padding: 40px 20px; }
+        
+        .libelula { width: 100px; height: 100px; margin-bottom: 10px; }
+        h1 { font-size: 3rem; color: #AF0A0F; margin: 0; }
+
         .legal-notice { 
-            max-width: 600px; margin: 20px auto; padding: 15px; 
-            background: rgba(255,255,255,0.7); border: 1px solid #AF0A0F; 
-            font-size: 0.9em; font-style: italic; color: #444;
+            max-width: 700px; margin: 30px auto; padding: 20px; 
+            background: rgba(255,255,255,0.8); border: 2px solid #AF0A0F; 
+            font-size: 10pt; line-height: 1.5; color: #333; text-align: justify;
         }
 
-        /* Navegación de Salas */
-        nav { background: #98E; padding: 10px; text-align: center; position: sticky; top: 0; z-index: 1000; }
-        nav a { color: white; margin: 0 10px; text-decoration: none; font-weight: bold; cursor: pointer; }
-        nav a:hover { text-decoration: underline; }
+        /* Lista de Salas debajo de Políticas */
+        .board-list { 
+            max-width: 700px; margin: 20px auto; display: flex; flex-wrap: wrap; 
+            justify-content: center; gap: 15px; padding: 0;
+        }
+        .board-card {
+            background: #D6DAF0; border: 1px solid #B7C5D9; padding: 15px 25px;
+            text-decoration: none; color: #34345C; font-weight: bold; font-size: 14pt;
+            transition: all 0.2s; min-width: 120px;
+        }
+        .board-card:hover { background: #AF0A0F; color: white; border-color: #AF0A0F; }
 
         /* Ventana de Chat */
-        #chat-window { display: none; padding: 20px; max-width: 1000px; margin: 0 auto; }
-        .window-header { background: #AF0A0F; color: white; padding: 10px; margin-bottom: 20px; text-align: center; }
+        #chat-window { display: none; padding: 10px; max-width: 900px; margin: 0 auto; }
+        .window-header { background: #AF0A0F; color: white; padding: 10px; margin-bottom: 15px; position: relative; }
+        .back-link { position: absolute; left: 10px; color: white; text-decoration: none; font-size: 0.8em; border: 1px solid white; padding: 2px 5px; }
 
-        /* Reutilizamos tus estilos de posts */
-        .post { background-color: #D6DAF0; border: 1px solid #B7C5D9; padding: 10px; margin-bottom: 12px; }
-        .is-reply { margin-left: 30px; border-left: 3px solid #B7C5D9; }
+        /* Estilos de Posts */
+        .post { background-color: #D6DAF0; border: 1px solid #B7C5D9; padding: 10px; margin-bottom: 10px; }
+        .is-reply { margin-left: 25px; border-left: 3px solid #B7C5D9; }
         .post-info { font-size: 9pt; color: #117743; font-weight: bold; border-bottom: 1px solid #B7C5D9; margin-bottom: 8px; }
-        .post-message { color: #000; white-space: pre-wrap; }
-        .post-media { max-width: 100%; max-height: 300px; display: block; margin: 10px 0; }
+        .post-message { color: #000; word-wrap: break-word; white-space: pre-wrap; font-size: 11pt; }
+        .post-media { max-width: 100%; max-height: 350px; display: block; margin: 10px 0; border: 1px solid #AAA; }
         .name-admin { color: #FF0000 !important; font-weight: bold; }
         .btn-delete { color: red; cursor: pointer; font-size: 8pt; margin-left: 10px; }
 
         /* Formulario */
         .post-form table { background-color: #D6DAF0; border: 1px solid #B7C5D9; width: 100%; max-width: 500px; margin: 0 auto 20px auto; border-collapse: collapse; }
-        .post-form td { border: 1px solid #B7C5D9; padding: 5px; }
-        input, textarea { width: 100%; box-sizing: border-box; padding: 8px; }
-        #btnPostear { width: 100%; padding: 10px; background: #eee; font-weight: bold; cursor: pointer; }
+        .post-form td { border: 1px solid #B7C5D9; padding: 5px; font-size: 9pt; }
+        input, textarea { width: 100%; box-sizing: border-box; padding: 8px; border: 1px solid #AAA; }
+        #btnPostear { width: 100%; padding: 10px; background: #eee; font-weight: bold; cursor: pointer; border: 1px solid #777; }
 
-        .libelula { width: 80px; height: 80px; }
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
-
-<nav id="menu-salas">
-    <a onclick="irAHome()">[ Inicio ]</a>
-    <a onclick="abrirSala('b', 'Random')">/b/ - Random</a>
-    <a onclick="abrirSala('vg', 'Videojuegos')">/vg/ - Videojuegos</a>
-    <a onclick="abrirSala('tech', 'Tecnología')">/tech/ - Tech</a>
-</nav>
 
 <div id="home-screen">
     <svg class="libelula" viewBox="0 0 100 100">
@@ -64,28 +67,36 @@
         <ellipse cx="65" cy="35" rx="25" ry="8" fill="rgba(0, 188, 212, 0.6)" transform="rotate(-30 65 35)"/>
         <ellipse cx="30" cy="55" rx="25" ry="8" fill="rgba(0, 188, 212, 0.6)" transform="rotate(-30 30 55)"/>
     </svg>
-    <h1>Bienvenido a 6Chan</h1>
-    <p>Selecciona una sala en el menú superior para empezar a postear.</p>
+    <h1>6Chan</h1>
+    
     <div class="legal-notice">
         “El usuario es el único responsable del contenido que publica. La plataforma actúa como intermediaria y podrá remover contenido y/o suspender cuentas ante incumplimientos o requerimientos legales.”
+    </div>
+
+    <div class="board-list">
+        <a href="#b" class="board-card">Random</a>
+        <a href="#vg" class="board-card">Videojuegos</a>
+        <a href="#tech" class="board-card">tecnologia</a>
+        <a href="#pol" class="board-card">Política</a>
     </div>
 </div>
 
 <div id="chat-window">
     <div class="window-header">
-        <h2 id="titulo-sala">Sala</h2>
+        <a href="#" class="back-link">← Volver</a>
+        <h2 id="titulo-sala" style="margin:0;">Sala</h2>
     </div>
 
     <div class="post-form">
         <table>
-            <tr><td>Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
-            <tr><td>Mensaje</td><td><textarea id="comentario" rows="3" placeholder="Escribe algo..."></textarea></td></tr>
-            <tr><td>Archivo</td><td><input type="file" id="archivo" accept="image/*,video/*"></td></tr>
+            <tr><td style="background:#98E; color:white; width:60px;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
+            <tr><td style="background:#98E; color:white;">Mensaje</td><td><textarea id="comentario" rows="3"></textarea></td></tr>
+            <tr><td style="background:#98E; color:white;">Archivo</td><td><input type="file" id="archivo" accept="image/*,video/*"></td></tr>
             <tr><td colspan="2"><button id="btnPostear">Enviar Post</button></td></tr>
         </table>
     </div>
 
-    <div id="board">Cargando mensajes...</div>
+    <div id="board">Cargando...</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -97,29 +108,42 @@
     const LLAVE_MAESTRA = "Cristopher.35"; 
     let salaActual = 'home';
 
-    // Navegación
-    function irAHome() {
-        salaActual = 'home';
-        document.getElementById('home-screen').classList.remove('hidden');
-        document.getElementById('chat-window').style.display = 'none';
+    async function procesarRuta() {
+        const hash = window.location.hash.replace('#', '');
+        
+        if (!hash || hash === "") {
+            document.getElementById('home-screen').classList.remove('hidden');
+            document.getElementById('chat-window').style.display = 'none';
+            salaActual = 'home';
+        } else {
+            const nombresSalas = {
+                'b': 'Random',
+                'vg': 'Videojuegos',
+                'tech': 'Tecnología',
+                'pol': 'Política'
+            };
+
+            salaActual = hash;
+            document.getElementById('home-screen').classList.add('hidden');
+            document.getElementById('chat-window').style.display = 'block';
+            
+            const nombre = nombresSalas[hash] || hash.toUpperCase();
+            document.getElementById('titulo-sala').innerText = `/${hash}/ - ${nombre}`;
+            
+            cargarPosts();
+        }
     }
 
-    async function abrirSala(idSala, nombreSala) {
-        salaActual = idSala;
-        document.getElementById('home-screen').classList.add('hidden');
-        document.getElementById('chat-window').style.display = 'block';
-        document.getElementById('titulo-sala').innerText = `/${idSala}/ - ${nombreSala}`;
-        cargarPosts();
-    }
+    window.addEventListener('hashchange', procesarRuta);
+    window.addEventListener('load', procesarRuta);
 
     async function cargarPosts() {
         if(salaActual === 'home') return;
 
-        // Filtramos por la sala actual
         const { data: posts, error } = await _supabase
             .from('posts')
             .select('*')
-            .eq('board', salaActual) // ESTA ES LA CLAVE: Solo carga lo de esta sala
+            .eq('board', salaActual)
             .order('id', { ascending: false });
 
         if (error) return;
@@ -167,19 +191,19 @@
             nombre: nombreFinal, 
             mensaje: mensaje, 
             url: publicURL, 
-            board: salaActual // Guardamos en qué sala se posteó
+            board: salaActual 
         }]);
 
         document.getElementById('comentario').value = "";
+        document.getElementById('archivo').value = "";
     };
 
-    // Escuchar cambios Realtime
     _supabase.channel('any').on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, () => {
         cargarPosts();
     }).subscribe();
 
     async function borrarPost(id) {
-        if(confirm("¿Borrar?")) await _supabase.from('posts').delete().eq('id', id);
+        if(confirm("¿Borrar post?")) await _supabase.from('posts').delete().eq('id', id);
     }
 </script>
 </body>
