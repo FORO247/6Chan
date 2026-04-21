@@ -86,7 +86,7 @@
     
     <div class="board-list">
         <a href="#b" class="board-card">
-            <img src="https://i.postimg.cc/Wzg2J9m6/Chat-GPT-Image-20-abr-2026-23-28-42.png" referrerpolicy="no-referrer">
+            <img src="https://i.postimg.cc/T528zJ4p/Chat-GPT-Image-20-abr-2026-23-28-42.png" referrerpolicy="no-referrer">
             <div>Random</div>
         </a>
         <a href="#vg" class="board-card">
@@ -117,8 +117,9 @@
     <h2 style="color: #AF0A0F; text-align: center;">Normas del Tablón</h2>
     <ul style="line-height: 1.8;">
         <li><strong>Tolerancia Cero (CP):</strong> Reporte inmediato a las autoridades.</li>
-        <li><strong>No Doxing:</strong> Prohibido publicar datos privados.</li>
-        <li><strong>No Spam:</strong> Evita inundar las salas con basura.</li>
+        <li><strong>No Doxing:</strong> Prohibido publicar datos privados de terceros.</li>
+        <li><strong>No Spam:</strong> Evita inundar las salas con basura o publicidad.</li>
+        <li><strong>Responsabilidad:</strong> Eres el único dueño de lo que escribes.</li>
     </ul>
     <center style="margin-top:20px;"><a href="#" style="background: #AF0A0F; color: white; padding: 10px 40px; text-decoration: none; font-weight: bold; border-radius: 4px;">ACEPTAR</a></center>
 </div>
@@ -231,7 +232,7 @@
             await _supabase.storage.from('archivos').upload(nA, archivo);
             url = _supabase.storage.from('archivos').getPublicUrl(nA).data.publicUrl;
         }
-        await _supabase.from('posts').insert([{ nombre: nFinal, mensaje, url, board: salaActual }]);
+        await _supabase.from('posts').insert([{ nombre: nFinal, mensaje: mensaje, url: url, board: salaActual }]);
         document.getElementById('comentario').value = ""; document.getElementById('archivo').value = "";
     };
 
