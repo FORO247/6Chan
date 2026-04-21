@@ -3,27 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>6Chan - Tablones</title>
+    <title>6Chan - Red de Tablones</title>
     <style>
-        /* Estética base */
+        /* --- ESTÉTICA GENERAL --- */
         body { 
             background-color: #E0F2F1; 
-            color: #800000; font-family: arial,helvetica,sans-serif; margin: 0; padding: 0;
-            transition: background-color 0.4s ease; /* Transición suave de color */
+            color: #800000; 
+            font-family: arial,helvetica,sans-serif; 
+            margin: 0; 
+            padding: 0;
+            transition: background-color 0.4s ease;
         }
 
-        /* Pantalla de Inicio */
+        /* --- PANTALLA DE INICIO --- */
         #home-screen { text-align: center; padding: 40px 20px; }
         .libelula { width: 100px; height: 100px; margin-bottom: 10px; }
-        h1 { font-size: 3rem; color: #AF0A0F; margin: 0; }
+        h1 { font-size: 3.5rem; color: #AF0A0F; margin: 0; }
 
         .legal-notice { 
-            max-width: 700px; margin: 30px auto; padding: 20px; 
+            max-width: 700px; margin: 25px auto; padding: 20px; 
             background: rgba(255,255,255,0.8); border: 2px solid #AF0A0F; 
             font-size: 10pt; line-height: 1.5; color: #333; text-align: justify;
         }
 
-        /* Lista de Salas */
+        /* --- LISTA DE SALAS --- */
         .board-list { 
             max-width: 700px; margin: 20px auto; display: flex; flex-wrap: wrap; 
             justify-content: center; gap: 15px; padding: 0;
@@ -31,49 +34,56 @@
         .board-card {
             background: #D6DAF0; border: 1px solid #B7C5D9; padding: 15px 25px;
             text-decoration: none; color: #34345C; font-weight: bold; font-size: 14pt;
-            transition: all 0.2s; min-width: 120px;
+            transition: all 0.2s; min-width: 130px;
         }
-        .board-card:hover { background: #AF0A0F; color: white; }
+        .board-card:hover { background: #AF0A0F; color: white; border-color: #AF0A0F; }
 
-        /* Ventana de Chat (Limpia) */
+        /* --- SECCIÓN NORMAS --- */
+        #normas-screen { 
+            max-width: 700px; margin: 40px auto; padding: 30px; 
+            background: white; border: 2px solid #AF0A0F; text-align: left; 
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+        }
+        #normas-screen li { margin-bottom: 12px; }
+
+        /* --- VENTANA DE CHAT --- */
         #chat-window { display: none; padding: 10px; max-width: 900px; margin: 0 auto; position: relative; }
         
-        .window-header { 
-            text-align: center; 
-            padding: 20px 0; 
-            margin-bottom: 10px;
-        }
-        
-        /* Botón Volver Arriba a la Derecha */
+        .window-header { text-align: center; padding: 20px 0; margin-bottom: 10px; }
+        #titulo-sala { margin: 0; color: #AF0A0F; font-size: 26pt; font-weight: bold; }
+
+        /* BOTÓN VOLVER (Arriba Derecha) */
         .back-link { 
-            position: absolute; 
-            top: 20px; 
-            right: 10px; 
-            color: #AF0A0F; 
-            text-decoration: none; 
-            font-weight: bold;
-            border: 1px solid #AF0A0F; 
-            padding: 5px 12px;
-            background: rgba(255,255,255,0.5);
+            position: absolute; top: 20px; right: 10px; 
+            color: #AF0A0F; text-decoration: none; font-weight: bold;
+            border: 2px solid #AF0A0F; padding: 6px 15px;
+            background: rgba(255,255,255,0.6); font-size: 10pt;
         }
         .back-link:hover { background: #AF0A0F; color: white; }
 
-        /* Estilos de Posts */
-        .post { background-color: rgba(214, 218, 240, 0.9); border: 1px solid #B7C5D9; padding: 10px; margin-bottom: 10px; }
-        .is-reply { margin-left: 25px; border-left: 3px solid #B7C5D9; }
+        /* --- POSTS --- */
+        .post { background-color: rgba(214, 218, 240, 0.9); border: 1px solid #B7C5D9; padding: 12px; margin-bottom: 12px; }
+        .post-admin { border: 2px solid #AF0A0F !important; background-color: #FFF0F0 !important; }
+        .is-reply { margin-left: 30px; border-left: 4px solid #B7C5D9; }
         .post-info { font-size: 9pt; color: #117743; font-weight: bold; border-bottom: 1px solid rgba(0,0,0,0.1); margin-bottom: 8px; }
-        .post-message { color: #000; word-wrap: break-word; white-space: pre-wrap; font-size: 11pt; }
+        .post-message { color: #000; word-wrap: break-word; white-space: pre-wrap; font-size: 11pt; line-height: 1.4; }
         .post-media { max-width: 100%; max-height: 350px; display: block; margin: 10px 0; border: 1px solid #AAA; }
         .name-admin { color: #FF0000 !important; font-weight: bold; }
-        .btn-delete { color: red; cursor: pointer; font-size: 8pt; margin-left: 10px; }
+        .btn-delete { color: red; cursor: pointer; font-size: 8pt; margin-left: 10px; text-decoration: underline; }
 
-        /* Formulario */
-        .post-form table { background-color: rgba(214, 218, 240, 0.9); border: 1px solid #B7C5D9; width: 100%; max-width: 500px; margin: 0 auto 20px auto; border-collapse: collapse; }
-        .post-form td { border: 1px solid #B7C5D9; padding: 5px; }
-        input, textarea { width: 100%; box-sizing: border-box; padding: 8px; border: 1px solid #AAA; }
-        #btnPostear { width: 100%; padding: 10px; background: #eee; font-weight: bold; cursor: pointer; }
+        /* --- FORMULARIO --- */
+        .post-form table { background-color: rgba(214, 218, 240, 0.9); border: 1px solid #B7C5D9; width: 100%; max-width: 500px; margin: 0 auto 25px auto; border-collapse: collapse; }
+        .post-form td { border: 1px solid #B7C5D9; padding: 8px; }
+        input, textarea { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #AAA; font-size: 11pt; }
+        #btnPostear { width: 100%; padding: 12px; background: #eee; font-weight: bold; cursor: pointer; border: 1px solid #777; font-size: 11pt; }
+        #btnPostear:hover { background: #ddd; }
 
         .hidden { display: none !important; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            .board-card { width: 100%; }
+        }
     </style>
 </head>
 <body>
@@ -91,6 +101,12 @@
         “El usuario es el único responsable del contenido que publica. La plataforma actúa como intermediaria y podrá remover contenido y/o suspender cuentas ante incumplimientos o requerimientos legales.”
     </div>
 
+    <p style="margin-top: -15px; font-size: 11pt; color: #444;">
+        Antes de hacer alguna publicación lee las 
+        <a href="#normas" style="color: #FF0000; font-weight: bold; text-decoration: underline;">normas</a> 
+        para el uso sin restricciones de 6Chan.
+    </p>
+
     <div class="board-list">
         <a href="#b" class="board-card">Random</a>
         <a href="#vg" class="board-card">Videojuegos</a>
@@ -99,22 +115,37 @@
     </div>
 </div>
 
+<div id="normas-screen" class="hidden">
+    <h2 style="color: #AF0A0F; text-align: center; margin-top: 0;">Normas de Uso de 6Chan</h2>
+    <p>Para garantizar una estancia segura y evitar consecuencias legales, todos los usuarios deben cumplir lo siguiente:</p>
+    <ul style="line-height: 1.6; font-size: 11pt;">
+        <li><strong>Tolerancia Cero (CP):</strong> Prohibido terminantemente cualquier material de abuso infantil o explotación sexual. Se reportará a las autoridades competentes.</li>
+        <li><strong>Contenido Criminal:</strong> No se permite la distribución de drogas, armas o manuales para actividades ilegales.</li>
+        <li><strong>Doxing y Privacidad:</strong> Prohibido publicar datos personales (teléfonos, direcciones, fotos privadas) de terceros sin su consentimiento.</li>
+        <li><strong>Acoso y Odio:</strong> No se permiten amenazas de muerte o violencia física explícita.</li>
+        <li><strong>Responsabilidad Legal:</strong> El administrador no se hace responsable por el contenido subido por usuarios, pero colaborará con requerimientos legales si fuera necesario.</li>
+    </ul>
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="#" style="background: #AF0A0F; color: white; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 4px;">He leído y acepto las normas</a>
+    </div>
+</div>
+
 <div id="chat-window">
     <a href="#" class="back-link">Volver</a>
     <div class="window-header">
-        <h2 id="titulo-sala" style="margin:0; color:#AF0A0F; font-size: 24pt;">Sala</h2>
+        <h2 id="titulo-sala">Sala</h2>
     </div>
 
     <div class="post-form">
         <table>
-            <tr><td style="background:#98E; color:white; width:60px;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
-            <tr><td style="background:#98E; color:white;">Mensaje</td><td><textarea id="comentario" rows="3"></textarea></td></tr>
-            <tr><td style="background:#98E; color:white;">Archivo</td><td><input type="file" id="archivo" accept="image/*,video/*"></td></tr>
+            <tr><td style="background:#98E; color:white; width:70px; font-weight:bold;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
+            <tr><td style="background:#98E; color:white; font-weight:bold;">Mensaje</td><td><textarea id="comentario" rows="4" placeholder="Escribe aquí tu mensaje..."></textarea></td></tr>
+            <tr><td style="background:#98E; color:white; font-weight:bold;">Archivo</td><td><input type="file" id="archivo" accept="image/*,video/*"></td></tr>
             <tr><td colspan="2"><button id="btnPostear">Enviar Post</button></td></tr>
         </table>
     </div>
 
-    <div id="board">Cargando...</div>
+    <div id="board">Cargando mensajes...</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -126,40 +157,47 @@
     const LLAVE_MAESTRA = "Cristopher.35"; 
     let salaActual = 'home';
 
-    // CONFIGURACIÓN DE COLORES POR SALA
     const coloresSalas = {
-        'home': '#E0F2F1', // Color original
-        'b': '#F5F5DC',    // Beige para Random
-        'vg': '#E8F5E9',   // Verde suave para Videojuegos
-        'tech': '#E3F2FD', // Azul suave para Tech
-        'pol': '#FFEBEE'   // Rojo muy suave para Política
+        'home': '#E0F2F1',
+        'b': '#F5F5DC',    
+        'vg': '#E8F5E9',   
+        'tech': '#E3F2FD', 
+        'pol': '#FFEBEE',
+        'normas': '#FFFFFF'
+    };
+
+    const nombresSalas = {
+        'b': 'Random',
+        'vg': 'Videojuegos',
+        'tech': 'Tecnología',
+        'pol': 'Política'
     };
 
     async function procesarRuta() {
         const hash = window.location.hash.replace('#', '');
         
+        // Limpiar vista
+        document.getElementById('home-screen').classList.add('hidden');
+        document.getElementById('chat-window').style.display = 'none';
+        document.getElementById('normas-screen').classList.add('hidden');
+
         if (!hash || hash === "") {
             document.getElementById('home-screen').classList.remove('hidden');
-            document.getElementById('chat-window').style.display = 'none';
             document.body.style.backgroundColor = coloresSalas['home'];
             salaActual = 'home';
-        } else {
-            const nombresSalas = {
-                'b': 'Random',
-                'vg': 'Videojuegos',
-                'tech': 'Tecnología',
-                'pol': 'Política'
-            };
-
+        } 
+        else if (hash === "normas") {
+            document.getElementById('normas-screen').classList.remove('hidden');
+            document.body.style.backgroundColor = coloresSalas['normas'];
+            salaActual = 'normas';
+        }
+        else {
             salaActual = hash;
-            document.getElementById('home-screen').classList.add('hidden');
             document.getElementById('chat-window').style.display = 'block';
-            
-            // Cambiar color de fondo según la sala
             document.body.style.backgroundColor = coloresSalas[hash] || '#FFFFFF';
             
             const nombre = nombresSalas[hash] || hash.toUpperCase();
-            document.getElementById('titulo-sala').innerText = `/${hash}/ - ${nombre}`;
+            document.getElementById('titulo-sala').innerText = nombre;
             
             cargarPosts();
         }
@@ -168,22 +206,40 @@
     window.addEventListener('hashchange', procesarRuta);
     window.addEventListener('load', procesarRuta);
 
-    // ... (Mantener las funciones cargarPosts, borrarPost y btnPostear.onclick igual que antes)
     async function cargarPosts() {
-        if(salaActual === 'home') return;
-        const { data: posts, error } = await _supabase.from('posts').select('*').eq('board', salaActual).order('id', { ascending: false });
+        if(salaActual === 'home' || salaActual === 'normas') return;
+
+        const { data: posts, error } = await _supabase
+            .from('posts')
+            .select('*')
+            .eq('board', salaActual)
+            .order('id', { ascending: false });
+
         if (error) return;
+
         const board = document.getElementById('board');
         const miNombre = document.getElementById('nombre').value.trim();
         const soyAdmin = (miNombre === LLAVE_MAESTRA);
+        
         board.innerHTML = "";
         posts.forEach(post => {
-            let mediaHtml = post.url ? `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media"></a>` : "";
+            let mediaHtml = "";
+            if (post.url) {
+                const isVid = post.url.match(/\.(mp4|webm|mov)$/i);
+                mediaHtml = isVid ? 
+                    `<video src="${post.url}" class="post-media" controls></video>` : 
+                    `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media"></a>`;
+            }
+
             const esAdminPost = post.nombre.includes("RootMaster");
             const btnEliminar = soyAdmin ? `<span class="btn-delete" onclick="borrarPost(${post.id})">[BORRAR]</span>` : "";
+
             board.innerHTML += `
                 <div class="post ${esAdminPost ? 'post-admin' : ''} ${post.parent_id ? 'is-reply' : ''}">
-                    <div class="post-info"><span>${post.nombre}</span> | No.${post.id} ${btnEliminar}</div>
+                    <div class="post-info">
+                        <span class="${esAdminPost ? 'name-admin' : ''}">${post.nombre}</span> 
+                        | No.${post.id} ${btnEliminar}
+                    </div>
                     ${mediaHtml}
                     <div class="post-message">${post.mensaje}</div>
                 </div>`;
@@ -194,24 +250,49 @@
         const rawNombre = document.getElementById('nombre').value.trim();
         const mensaje = document.getElementById('comentario').value;
         const archivo = document.getElementById('archivo').files[0];
+
         if (!mensaje && !archivo) return;
+
         let nombreFinal = rawNombre || "Anónimo";
         if (rawNombre === LLAVE_MAESTRA) nombreFinal = "### RootMaster ###";
+
+        const btn = document.getElementById('btnPostear');
+        btn.disabled = true;
+        btn.innerText = "Subiendo...";
+
         let publicURL = null;
-        if (archivo) {
-            const nA = Date.now() + "_" + archivo.name;
-            await _supabase.storage.from('archivos').upload(nA, archivo);
-            publicURL = _supabase.storage.from('archivos').getPublicUrl(nA).data.publicUrl;
+        try {
+            if (archivo) {
+                const nA = Date.now() + "_" + archivo.name;
+                await _supabase.storage.from('archivos').upload(nA, archivo);
+                publicURL = _supabase.storage.from('archivos').getPublicUrl(nA).data.publicUrl;
+            }
+
+            await _supabase.from('posts').insert([{ 
+                nombre: nombreFinal, 
+                mensaje: mensaje, 
+                url: publicURL, 
+                board: salaActual 
+            }]);
+
+            document.getElementById('comentario').value = "";
+            document.getElementById('archivo').value = "";
+        } catch (e) {
+            alert("Error al postear");
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "Enviar Post";
         }
-        await _supabase.from('posts').insert([{ nombre: nombreFinal, mensaje: mensaje, url: publicURL, board: salaActual }]);
-        document.getElementById('comentario').value = "";
-        document.getElementById('archivo').value = "";
     };
 
-    _supabase.channel('any').on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, () => { cargarPosts(); }).subscribe();
+    _supabase.channel('any').on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, () => {
+        cargarPosts();
+    }).subscribe();
 
     async function borrarPost(id) {
-        if(confirm("¿Borrar post?")) await _supabase.from('posts').delete().eq('id', id);
+        if(confirm("¿Eliminar este post para siempre?")) {
+            await _supabase.from('posts').delete().eq('id', id);
+        }
     }
 </script>
 </body>
