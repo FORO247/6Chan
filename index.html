@@ -35,31 +35,31 @@
             text-decoration: none; color: #34345C; font-weight: bold; 
             width: 160px; transition: all 0.2s; padding: 10px; text-align: center;
         }
-        .board-card:hover { background: #AF0A0F; color: white; border-color: #AF0A0F; transform: translateY(-5px); }
+        .board-card:hover { background: #AF0A0F !important; color: white !important; border-color: #AF0A0F; transform: translateY(-5px); }
         .board-card img { width: 100%; height: 100px; object-fit: contain; margin-bottom: 10px; background: white; border-radius: 4px; }
 
-        /* --- SECCIÓN NORMAS Y MURO DE EDAD --- */
+        /* --- SECCIONES ESPECIALES --- */
         #normas-screen, #age-wall { 
             max-width: 600px; margin: 40px auto; padding: 30px; 
             background: white; border: 2px solid #AF0A0F; text-align: left; 
-            box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.1); color: #333;
         }
 
         /* --- VENTANA DE CHAT --- */
         #chat-window { display: none; padding: 10px; max-width: 900px; margin: 0 auto; position: relative; }
         .window-header { text-align: center; padding: 20px 0; }
         #titulo-sala { margin: 0; color: #AF0A0F; font-size: 26pt; }
-        .back-link { position: absolute; top: 20px; right: 10px; color: #AF0A0F; text-decoration: none; font-weight: bold; border: 2px solid #AF0A0F; padding: 6px 15px; background: rgba(255,255,255,0.8); }
+        .back-link { position: absolute; top: 20px; right: 10px; color: #AF0A0F; text-decoration: none; font-weight: bold; border: 2px solid #AF0A0F; padding: 6px 15px; background: rgba(255,255,255,0.8); z-index: 10; }
 
         /* --- POSTS --- */
         .post { background-color: rgba(255, 255, 255, 0.8); border: 1px solid #B7C5D9; padding: 12px; margin-bottom: 12px; }
         .post-info { font-size: 9pt; color: #117743; font-weight: bold; border-bottom: 1px solid rgba(0,0,0,0.1); margin-bottom: 8px; }
-        .post-message { color: #000; white-space: pre-wrap; font-size: 11pt; }
+        .post-message { color: #000; white-space: pre-wrap; font-size: 11pt; word-wrap: break-word; }
         .post-media { max-width: 100%; max-height: 350px; display: block; margin: 10px 0; border: 1px solid #AAA; }
         .btn-delete { color: red; cursor: pointer; font-size: 8pt; margin-left: 10px; }
 
         /* --- FORMULARIO --- */
-        .post-form table { background-color: rgba(255, 255, 255, 0.9); border: 1px solid #B7C5D9; width: 100%; max-width: 500px; margin: 0 auto 25px auto; }
+        .post-form table { background-color: rgba(255, 255, 255, 0.9); border: 1px solid #B7C5D9; width: 100%; max-width: 500px; margin: 0 auto 25px auto; border-collapse: collapse; }
         .post-form td { padding: 8px; border: 1px solid #B7C5D9; }
         #btnPostear { width: 100%; padding: 12px; background: #eee; font-weight: bold; cursor: pointer; }
 
@@ -69,60 +69,35 @@
 <body>
 
 <div id="home-screen">
-    <svg class="libelula" viewBox="0 0 100 100">
-        <ellipse cx="50" cy="50" rx="4" ry="25" fill="#00796B" transform="rotate(-15 50 50)"/>
-        <circle cx="43" cy="30" r="6" fill="#00796B"/>
-        <ellipse cx="65" cy="35" rx="25" ry="8" fill="rgba(0, 188, 212, 0.6)" transform="rotate(-30 65 35)"/>
-        <ellipse cx="30" cy="55" rx="25" ry="8" fill="rgba(0, 188, 212, 0.6)" transform="rotate(-30 30 55)"/>
-    </svg>
+    <svg class="libelula" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="4" ry="25" fill="#00796B" transform="rotate(-15 50 50)"/><circle cx="43" cy="30" r="6" fill="#00796B"/><ellipse cx="65" cy="35" rx="25" ry="8" fill="rgba(0, 188, 212, 0.6)" transform="rotate(-30 65 35)"/><ellipse cx="30" cy="55" rx="25" ry="8" fill="rgba(0, 188, 212, 0.6)" transform="rotate(-30 30 55)"/></svg>
     <h1>6Chan</h1>
-    
-    <div class="legal-notice">
-        “El usuario es el único responsable del contenido que publica. La plataforma actúa como intermediaria y podrá remover contenido y/o suspender cuentas ante incumplimientos o requerimientos legales.”
-    </div>
-
-    <p style="margin-top: -15px; font-size: 11pt;">
-        Antes de publicar lee las <a href="#normas" style="color: #FF0000; font-weight: bold;">normas</a>.
-    </p>
-
+    <div class="legal-notice">“El usuario es el único responsable del contenido que publica. La plataforma actúa como intermediaria y podrá remover contenido y/o suspender cuentas ante incumplimientos o requerimientos legales.”</div>
+    <p>Antes de publicar lee las <a href="#normas" style="color: #FF0000; font-weight: bold;">normas</a>.</p>
     <div class="board-list">
-        <a href="#b" class="board-card">
-            <img src="https://i.imgur.com/8n9Xp8M.png" alt="Random">
-            <div>/b/ - Random</div>
-        </a>
-        <a href="#vg" class="board-card">
-            <img src="https://i.imgur.com/2Xy3X6N.png" alt="Juegos">
-            <div>/vg/ - Juegos</div>
-        </a>
-        <a href="#tech" class="board-card">
-            <img src="https://i.imgur.com/w8q3A9C.png" alt="Tech">
-            <div>/tech/ - Tech</div>
-        </a>
-        <a href="#adult" class="board-card">
-            <img src="https://i.imgur.com/vL8Yh8X.png" alt="Adultos">
-            <div>/adult/ - +18</div>
-        </a>
+        <a href="#b" class="board-card"><img src="https://i.imgur.com/8n9Xp8M.png"><div>Random</div></a>
+        <a href="#vg" class="board-card"><img src="https://i.imgur.com/2Xy3X6N.png"><div>Juegos</div></a>
+        <a href="#tech" class="board-card"><img src="https://i.imgur.com/w8q3A9C.png"><div>Tech</div></a>
+        <a href="#adult" class="board-card"><img src="https://i.imgur.com/vL8Yh8X.png"><div>+18</div></a>
     </div>
 </div>
 
-<div id="age-wall" class="hidden" style="text-align: center;">
-    <h2 style="color: #AF0A0F;">CONTENIDO RESTRINGIDO</h2>
-    <p>Esta sala contiene material exclusivo para adultos. Para continuar, debes confirmar que eres mayor de 18 años.</p>
-    <div style="margin: 30px 0;">
-        <button onclick="confirmarEdad()" style="background: #AF0A0F; color: white; padding: 15px 30px; border: none; cursor: pointer; font-weight: bold; margin-right: 10px;">SOY MAYOR DE EDAD</button>
-        <button onclick="location.hash=''" style="background: #CCC; padding: 15px 30px; border: none; cursor: pointer;">SALIR</button>
-    </div>
-    <small>El acceso no autorizado de menores es responsabilidad de sus tutores legales.</small>
+<div id="age-wall" class="hidden">
+    <h2 style="color: #AF0A0F; text-align: center;">CONTENIDO RESTRINGIDO</h2>
+    <p>Esta sala contiene material exclusivo para adultos. Debes confirmar que eres mayor de 18 años para entrar.</p>
+    <center style="margin-top:20px;">
+        <button onclick="confirmarEdad()" style="background:#AF0A0F; color:white; padding:15px; border:none; cursor:pointer; font-weight:bold;">SÍ, SOY MAYOR</button>
+        <button onclick="location.hash=''" style="background:#CCC; padding:15px; border:none; cursor:pointer; margin-left:10px;">SALIR</button>
+    </center>
 </div>
 
 <div id="normas-screen" class="hidden">
     <h2 style="color: #AF0A0F; text-align: center;">Normas</h2>
     <ul>
         <li>Tolerancia Cero (CP): Reporte inmediato.</li>
-        <li>No Doxing ni acoso.</li>
-        <li>No Spam o virus.</li>
+        <li>No Doxing ni acoso personal.</li>
+        <li>No Spam o enlaces maliciosos.</li>
     </ul>
-    <center><a href="#" style="background: #AF0A0F; color: white; padding: 10px 20px; text-decoration: none;">ACEPTAR</a></center>
+    <center><a href="#" style="background: #AF0A0F; color: white; padding: 10px 20px; text-decoration: none; font-weight: bold;">ACEPTAR</a></center>
 </div>
 
 <div id="chat-window">
@@ -130,7 +105,7 @@
     <div class="window-header"><h2 id="titulo-sala">Sala</h2></div>
     <div class="post-form">
         <table>
-            <tr><td style="background:#98E; color:white; width:70px;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
+            <tr><td style="background:#98E; color:white;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
             <tr><td style="background:#98E; color:white;">Mensaje</td><td><textarea id="comentario" rows="4"></textarea></td></tr>
             <tr><td style="background:#98E; color:white;">Archivo</td><td><input type="file" id="archivo" accept="image/*,video/*"></td></tr>
             <tr><td colspan="2"><button id="btnPostear">Enviar Post</button></td></tr>
@@ -159,11 +134,16 @@
 
     async function procesarRuta() {
         const hash = window.location.hash.replace('#', '');
-        document.querySelectorAll('body > div').forEach(div => div.classList.add('hidden'));
+        
+        // Ocultar TODO por defecto
+        document.getElementById('home-screen').classList.add('hidden');
+        document.getElementById('normas-screen').classList.add('hidden');
+        document.getElementById('age-wall').classList.add('hidden');
         document.getElementById('chat-window').style.display = 'none';
         document.body.classList.remove('in-room');
+        document.body.style.color = "#800000";
 
-        if (!hash) {
+        if (!hash || hash === "") {
             document.getElementById('home-screen').classList.remove('hidden');
             document.body.style.backgroundColor = coloresSalas['home'];
             salaActual = 'home';
@@ -176,29 +156,54 @@
             document.body.style.backgroundColor = "#111";
             document.body.style.color = "#FFF";
         } else {
-            document.body.style.color = hash === 'adult' ? "#FFF" : "#800000";
+            // Mostrar Sala de Chat
+            salaActual = hash;
             document.getElementById('chat-window').style.display = 'block';
             document.body.style.backgroundColor = coloresSalas[hash] || '#FFF';
             document.body.classList.add('in-room');
+            if(hash === 'adult') document.body.style.color = "#FFF";
+            
             document.getElementById('titulo-sala').innerText = nombresSalas[hash] || hash.toUpperCase();
-            salaActual = hash;
             cargarPosts();
         }
     }
 
-    window.addEventListener('hashchange', () => { if(window.location.hash !== "#adult") edadConfirmada = false; procesarRuta(); });
+    window.addEventListener('hashchange', () => { 
+        if(window.location.hash !== "#adult") edadConfirmada = false; 
+        procesarRuta(); 
+    });
     window.addEventListener('load', procesarRuta);
 
     async function cargarPosts() {
-        if(salaActual === 'home' || salaActual === 'normas') return;
-        const { data: posts } = await _supabase.from('posts').select('*').eq('board', salaActual).order('id', { ascending: false });
+        if(salaActual === 'home' || salaActual === 'normas' || !salaActual) return;
+        
+        const { data: posts, error } = await _supabase
+            .from('posts')
+            .select('*')
+            .eq('board', salaActual)
+            .order('id', { ascending: false });
+
+        if (error) return;
+
         const board = document.getElementById('board');
-        const soyAdmin = (document.getElementById('nombre').value === LLAVE_MAESTRA);
+        const miNombre = document.getElementById('nombre').value;
+        const soyAdmin = (miNombre === LLAVE_MAESTRA);
+        
         board.innerHTML = "";
         posts.forEach(post => {
             let mediaHtml = post.url ? `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media"></a>` : "";
+            const esAdminPost = post.nombre.includes("RootMaster");
             const btnEliminar = soyAdmin ? `<span class="btn-delete" onclick="borrarPost(${post.id})">[BORRAR]</span>` : "";
-            board.innerHTML += `<div class="post"><div class="post-info"><span>${post.nombre}</span> | No.${post.id} ${btnEliminar}</div>${mediaHtml}<div class="post-message">${post.mensaje}</div></div>`;
+
+            board.innerHTML += `
+                <div class="post">
+                    <div class="post-info">
+                        <span class="${esAdminPost ? 'name-admin' : ''}">${post.nombre}</span> 
+                        | No.${post.id} ${btnEliminar}
+                    </div>
+                    ${mediaHtml}
+                    <div class="post-message">${post.mensaje}</div>
+                </div>`;
         });
     }
 
@@ -207,15 +212,19 @@
         const mensaje = document.getElementById('comentario').value;
         const archivo = document.getElementById('archivo').files[0];
         if (!mensaje && !archivo) return;
+
         let nFinal = (rawNombre === LLAVE_MAESTRA) ? "### RootMaster ###" : (rawNombre || "Anónimo");
         let url = null;
+        
         if (archivo) {
             const nA = Date.now() + "_" + archivo.name;
             await _supabase.storage.from('archivos').upload(nA, archivo);
             url = _supabase.storage.from('archivos').getPublicUrl(nA).data.publicUrl;
         }
+
         await _supabase.from('posts').insert([{ nombre: nFinal, mensaje: mensaje, url: url, board: salaActual }]);
         document.getElementById('comentario').value = "";
+        document.getElementById('archivo').value = "";
     };
 
     _supabase.channel('any').on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, () => { cargarPosts(); }).subscribe();
