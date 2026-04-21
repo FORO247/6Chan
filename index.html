@@ -8,12 +8,11 @@
         /* --- ESTÉTICA GENERAL --- */
         body { 
             background-color: #E0F2F1; 
-            color: #800000; 
-            font-family: arial,helvetica,sans-serif; 
-            margin: 0; 
-            padding: 0;
+            color: #800000; font-family: arial,helvetica,sans-serif; margin: 0; padding: 0;
             transition: background-color 0.4s ease;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='30' viewBox='0 0 60 30'%3E%3Ctext x='0' y='20' font-family='Arial' font-size='8' fill='%23009688' fill-opacity='0.08' transform='rotate(160 30 15)'%3E6Chan%3C/text%3E%3C/svg%3E");
         }
+        body.in-room { background-image: none !important; }
 
         /* --- PANTALLA DE INICIO --- */
         #home-screen { text-align: center; padding: 40px 20px; }
@@ -22,68 +21,49 @@
 
         .legal-notice { 
             max-width: 700px; margin: 25px auto; padding: 20px; 
-            background: rgba(255,255,255,0.8); border: 2px solid #AF0A0F; 
+            background: rgba(255,255,255,0.9); border: 2px solid #AF0A0F; 
             font-size: 10pt; line-height: 1.5; color: #333; text-align: justify;
         }
 
-        /* --- LISTA DE SALAS --- */
+        /* --- LISTA DE SALAS CON FOTOS --- */
         .board-list { 
-            max-width: 700px; margin: 20px auto; display: flex; flex-wrap: wrap; 
-            justify-content: center; gap: 15px; padding: 0;
+            max-width: 850px; margin: 20px auto; display: flex; flex-wrap: wrap; 
+            justify-content: center; gap: 20px; padding: 0;
         }
         .board-card {
-            background: #D6DAF0; border: 1px solid #B7C5D9; padding: 15px 25px;
-            text-decoration: none; color: #34345C; font-weight: bold; font-size: 14pt;
-            transition: all 0.2s; min-width: 130px;
+            background: rgba(214, 218, 240, 0.9); border: 1px solid #B7C5D9; 
+            text-decoration: none; color: #34345C; font-weight: bold; 
+            width: 160px; transition: all 0.2s; padding: 10px; text-align: center;
         }
-        .board-card:hover { background: #AF0A0F; color: white; border-color: #AF0A0F; }
+        .board-card:hover { background: #AF0A0F; color: white; border-color: #AF0A0F; transform: translateY(-5px); }
+        .board-card img { width: 100%; height: 100px; object-fit: contain; margin-bottom: 10px; background: white; border-radius: 4px; }
 
-        /* --- SECCIÓN NORMAS --- */
-        #normas-screen { 
-            max-width: 700px; margin: 40px auto; padding: 30px; 
+        /* --- SECCIÓN NORMAS Y MURO DE EDAD --- */
+        #normas-screen, #age-wall { 
+            max-width: 600px; margin: 40px auto; padding: 30px; 
             background: white; border: 2px solid #AF0A0F; text-align: left; 
             box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
         }
-        #normas-screen li { margin-bottom: 12px; }
 
         /* --- VENTANA DE CHAT --- */
         #chat-window { display: none; padding: 10px; max-width: 900px; margin: 0 auto; position: relative; }
-        
-        .window-header { text-align: center; padding: 20px 0; margin-bottom: 10px; }
-        #titulo-sala { margin: 0; color: #AF0A0F; font-size: 26pt; font-weight: bold; }
-
-        /* BOTÓN VOLVER (Arriba Derecha) */
-        .back-link { 
-            position: absolute; top: 20px; right: 10px; 
-            color: #AF0A0F; text-decoration: none; font-weight: bold;
-            border: 2px solid #AF0A0F; padding: 6px 15px;
-            background: rgba(255,255,255,0.6); font-size: 10pt;
-        }
-        .back-link:hover { background: #AF0A0F; color: white; }
+        .window-header { text-align: center; padding: 20px 0; }
+        #titulo-sala { margin: 0; color: #AF0A0F; font-size: 26pt; }
+        .back-link { position: absolute; top: 20px; right: 10px; color: #AF0A0F; text-decoration: none; font-weight: bold; border: 2px solid #AF0A0F; padding: 6px 15px; background: rgba(255,255,255,0.8); }
 
         /* --- POSTS --- */
-        .post { background-color: rgba(214, 218, 240, 0.9); border: 1px solid #B7C5D9; padding: 12px; margin-bottom: 12px; }
-        .post-admin { border: 2px solid #AF0A0F !important; background-color: #FFF0F0 !important; }
-        .is-reply { margin-left: 30px; border-left: 4px solid #B7C5D9; }
+        .post { background-color: rgba(255, 255, 255, 0.8); border: 1px solid #B7C5D9; padding: 12px; margin-bottom: 12px; }
         .post-info { font-size: 9pt; color: #117743; font-weight: bold; border-bottom: 1px solid rgba(0,0,0,0.1); margin-bottom: 8px; }
-        .post-message { color: #000; word-wrap: break-word; white-space: pre-wrap; font-size: 11pt; line-height: 1.4; }
+        .post-message { color: #000; white-space: pre-wrap; font-size: 11pt; }
         .post-media { max-width: 100%; max-height: 350px; display: block; margin: 10px 0; border: 1px solid #AAA; }
-        .name-admin { color: #FF0000 !important; font-weight: bold; }
-        .btn-delete { color: red; cursor: pointer; font-size: 8pt; margin-left: 10px; text-decoration: underline; }
+        .btn-delete { color: red; cursor: pointer; font-size: 8pt; margin-left: 10px; }
 
         /* --- FORMULARIO --- */
-        .post-form table { background-color: rgba(214, 218, 240, 0.9); border: 1px solid #B7C5D9; width: 100%; max-width: 500px; margin: 0 auto 25px auto; border-collapse: collapse; }
-        .post-form td { border: 1px solid #B7C5D9; padding: 8px; }
-        input, textarea { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #AAA; font-size: 11pt; }
-        #btnPostear { width: 100%; padding: 12px; background: #eee; font-weight: bold; cursor: pointer; border: 1px solid #777; font-size: 11pt; }
-        #btnPostear:hover { background: #ddd; }
+        .post-form table { background-color: rgba(255, 255, 255, 0.9); border: 1px solid #B7C5D9; width: 100%; max-width: 500px; margin: 0 auto 25px auto; }
+        .post-form td { padding: 8px; border: 1px solid #B7C5D9; }
+        #btnPostear { width: 100%; padding: 12px; background: #eee; font-weight: bold; cursor: pointer; }
 
         .hidden { display: none !important; }
-
-        @media (max-width: 600px) {
-            h1 { font-size: 2.5rem; }
-            .board-card { width: 100%; }
-        }
     </style>
 </head>
 <body>
@@ -101,51 +81,62 @@
         “El usuario es el único responsable del contenido que publica. La plataforma actúa como intermediaria y podrá remover contenido y/o suspender cuentas ante incumplimientos o requerimientos legales.”
     </div>
 
-    <p style="margin-top: -15px; font-size: 11pt; color: #444;">
-        Antes de hacer alguna publicación lee las 
-        <a href="#normas" style="color: #FF0000; font-weight: bold; text-decoration: underline;">normas</a> 
-        para el uso sin restricciones de 6Chan.
+    <p style="margin-top: -15px; font-size: 11pt;">
+        Antes de publicar lee las <a href="#normas" style="color: #FF0000; font-weight: bold;">normas</a>.
     </p>
 
     <div class="board-list">
-        <a href="#b" class="board-card">Random</a>
-        <a href="#vg" class="board-card">Videojuegos</a>
-        <a href="#tech" class="board-card">Tecnologia</a>
-        <a href="#pol" class="board-card">Política</a>
+        <a href="#b" class="board-card">
+            <img src="https://i.imgur.com/8n9Xp8M.png" alt="Random">
+            <div>/b/ - Random</div>
+        </a>
+        <a href="#vg" class="board-card">
+            <img src="https://i.imgur.com/2Xy3X6N.png" alt="Juegos">
+            <div>/vg/ - Juegos</div>
+        </a>
+        <a href="#tech" class="board-card">
+            <img src="https://i.imgur.com/w8q3A9C.png" alt="Tech">
+            <div>/tech/ - Tech</div>
+        </a>
+        <a href="#adult" class="board-card">
+            <img src="https://i.imgur.com/vL8Yh8X.png" alt="Adultos">
+            <div>/adult/ - +18</div>
+        </a>
     </div>
 </div>
 
-<div id="normas-screen" class="hidden">
-    <h2 style="color: #AF0A0F; text-align: center; margin-top: 0;">Normas de Uso de 6Chan</h2>
-    <p>Para garantizar una estancia segura y evitar consecuencias legales, todos los usuarios deben cumplir lo siguiente:</p>
-    <ul style="line-height: 1.6; font-size: 11pt;">
-        <li><strong>Tolerancia Cero (CP):</strong> Prohibido terminantemente cualquier material de abuso infantil o explotación sexual. Se reportará a las autoridades competentes.</li>
-        <li><strong>Contenido Criminal:</strong> No se permite la distribución de drogas, armas o manuales para actividades ilegales.</li>
-        <li><strong>Doxing y Privacidad:</strong> Prohibido publicar datos personales (teléfonos, direcciones, fotos privadas) de terceros sin su consentimiento.</li>
-        <li><strong>Acoso y Odio:</strong> No se permiten amenazas de muerte o violencia física explícita.</li>
-        <li><strong>Responsabilidad Legal:</strong> El administrador no se hace responsable por el contenido subido por usuarios, pero colaborará con requerimientos legales si fuera necesario.</li>
-    </ul>
-    <div style="text-align: center; margin-top: 30px;">
-        <a href="#" style="background: #AF0A0F; color: white; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 4px;">He leído y acepto las normas</a>
+<div id="age-wall" class="hidden" style="text-align: center;">
+    <h2 style="color: #AF0A0F;">CONTENIDO RESTRINGIDO</h2>
+    <p>Esta sala contiene material exclusivo para adultos. Para continuar, debes confirmar que eres mayor de 18 años.</p>
+    <div style="margin: 30px 0;">
+        <button onclick="confirmarEdad()" style="background: #AF0A0F; color: white; padding: 15px 30px; border: none; cursor: pointer; font-weight: bold; margin-right: 10px;">SOY MAYOR DE EDAD</button>
+        <button onclick="location.hash=''" style="background: #CCC; padding: 15px 30px; border: none; cursor: pointer;">SALIR</button>
     </div>
+    <small>El acceso no autorizado de menores es responsabilidad de sus tutores legales.</small>
+</div>
+
+<div id="normas-screen" class="hidden">
+    <h2 style="color: #AF0A0F; text-align: center;">Normas</h2>
+    <ul>
+        <li>Tolerancia Cero (CP): Reporte inmediato.</li>
+        <li>No Doxing ni acoso.</li>
+        <li>No Spam o virus.</li>
+    </ul>
+    <center><a href="#" style="background: #AF0A0F; color: white; padding: 10px 20px; text-decoration: none;">ACEPTAR</a></center>
 </div>
 
 <div id="chat-window">
     <a href="#" class="back-link">Volver</a>
-    <div class="window-header">
-        <h2 id="titulo-sala">Sala</h2>
-    </div>
-
+    <div class="window-header"><h2 id="titulo-sala">Sala</h2></div>
     <div class="post-form">
         <table>
-            <tr><td style="background:#98E; color:white; width:70px; font-weight:bold;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
-            <tr><td style="background:#98E; color:white; font-weight:bold;">Mensaje</td><td><textarea id="comentario" rows="4" placeholder="Escribe aquí tu mensaje..."></textarea></td></tr>
-            <tr><td style="background:#98E; color:white; font-weight:bold;">Archivo</td><td><input type="file" id="archivo" accept="image/*,video/*"></td></tr>
+            <tr><td style="background:#98E; color:white; width:70px;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
+            <tr><td style="background:#98E; color:white;">Mensaje</td><td><textarea id="comentario" rows="4"></textarea></td></tr>
+            <tr><td style="background:#98E; color:white;">Archivo</td><td><input type="file" id="archivo" accept="image/*,video/*"></td></tr>
             <tr><td colspan="2"><button id="btnPostear">Enviar Post</button></td></tr>
         </table>
     </div>
-
-    <div id="board">Cargando mensajes...</div>
+    <div id="board">Cargando...</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -156,93 +147,58 @@
 
     const LLAVE_MAESTRA = "Cristopher.35"; 
     let salaActual = 'home';
+    let edadConfirmada = false;
 
-    const coloresSalas = {
-        'home': '#E0F2F1',
-        'b': '#F5F5DC',    
-        'vg': '#E8F5E9',   
-        'tech': '#E3F2FD', 
-        'pol': '#FFEBEE',
-        'normas': '#FFFFFF'
-    };
+    const coloresSalas = { 'home': '#E0F2F1', 'b': '#F5F5DC', 'vg': '#E8F5E9', 'tech': '#E3F2FD', 'adult': '#2C2C2C', 'normas': '#FFFFFF' };
+    const nombresSalas = { 'b': 'Random', 'vg': 'Videojuegos', 'tech': 'Tecnología', 'adult': 'Zona +18' };
 
-    const nombresSalas = {
-        'b': 'Random',
-        'vg': 'Videojuegos',
-        'tech': 'Tecnología',
-        'pol': 'Política'
-    };
+    function confirmarEdad() {
+        edadConfirmada = true;
+        procesarRuta();
+    }
 
     async function procesarRuta() {
         const hash = window.location.hash.replace('#', '');
-        
-        // Limpiar vista
-        document.getElementById('home-screen').classList.add('hidden');
+        document.querySelectorAll('body > div').forEach(div => div.classList.add('hidden'));
         document.getElementById('chat-window').style.display = 'none';
-        document.getElementById('normas-screen').classList.add('hidden');
+        document.body.classList.remove('in-room');
 
-        if (!hash || hash === "") {
+        if (!hash) {
             document.getElementById('home-screen').classList.remove('hidden');
             document.body.style.backgroundColor = coloresSalas['home'];
             salaActual = 'home';
-        } 
-        else if (hash === "normas") {
+        } else if (hash === "normas") {
             document.getElementById('normas-screen').classList.remove('hidden');
-            document.body.style.backgroundColor = coloresSalas['normas'];
-            salaActual = 'normas';
-        }
-        else {
-            salaActual = hash;
+            document.body.style.backgroundColor = "#FFF";
+            document.body.classList.add('in-room');
+        } else if (hash === "adult" && !edadConfirmada) {
+            document.getElementById('age-wall').classList.remove('hidden');
+            document.body.style.backgroundColor = "#111";
+            document.body.style.color = "#FFF";
+        } else {
+            document.body.style.color = hash === 'adult' ? "#FFF" : "#800000";
             document.getElementById('chat-window').style.display = 'block';
-            document.body.style.backgroundColor = coloresSalas[hash] || '#FFFFFF';
-            
-            const nombre = nombresSalas[hash] || hash.toUpperCase();
-            document.getElementById('titulo-sala').innerText = nombre;
-            
+            document.body.style.backgroundColor = coloresSalas[hash] || '#FFF';
+            document.body.classList.add('in-room');
+            document.getElementById('titulo-sala').innerText = nombresSalas[hash] || hash.toUpperCase();
+            salaActual = hash;
             cargarPosts();
         }
     }
 
-    window.addEventListener('hashchange', procesarRuta);
+    window.addEventListener('hashchange', () => { if(window.location.hash !== "#adult") edadConfirmada = false; procesarRuta(); });
     window.addEventListener('load', procesarRuta);
 
     async function cargarPosts() {
         if(salaActual === 'home' || salaActual === 'normas') return;
-
-        const { data: posts, error } = await _supabase
-            .from('posts')
-            .select('*')
-            .eq('board', salaActual)
-            .order('id', { ascending: false });
-
-        if (error) return;
-
+        const { data: posts } = await _supabase.from('posts').select('*').eq('board', salaActual).order('id', { ascending: false });
         const board = document.getElementById('board');
-        const miNombre = document.getElementById('nombre').value.trim();
-        const soyAdmin = (miNombre === LLAVE_MAESTRA);
-        
+        const soyAdmin = (document.getElementById('nombre').value === LLAVE_MAESTRA);
         board.innerHTML = "";
         posts.forEach(post => {
-            let mediaHtml = "";
-            if (post.url) {
-                const isVid = post.url.match(/\.(mp4|webm|mov)$/i);
-                mediaHtml = isVid ? 
-                    `<video src="${post.url}" class="post-media" controls></video>` : 
-                    `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media"></a>`;
-            }
-
-            const esAdminPost = post.nombre.includes("RootMaster");
+            let mediaHtml = post.url ? `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media"></a>` : "";
             const btnEliminar = soyAdmin ? `<span class="btn-delete" onclick="borrarPost(${post.id})">[BORRAR]</span>` : "";
-
-            board.innerHTML += `
-                <div class="post ${esAdminPost ? 'post-admin' : ''} ${post.parent_id ? 'is-reply' : ''}">
-                    <div class="post-info">
-                        <span class="${esAdminPost ? 'name-admin' : ''}">${post.nombre}</span> 
-                        | No.${post.id} ${btnEliminar}
-                    </div>
-                    ${mediaHtml}
-                    <div class="post-message">${post.mensaje}</div>
-                </div>`;
+            board.innerHTML += `<div class="post"><div class="post-info"><span>${post.nombre}</span> | No.${post.id} ${btnEliminar}</div>${mediaHtml}<div class="post-message">${post.mensaje}</div></div>`;
         });
     }
 
@@ -250,50 +206,20 @@
         const rawNombre = document.getElementById('nombre').value.trim();
         const mensaje = document.getElementById('comentario').value;
         const archivo = document.getElementById('archivo').files[0];
-
         if (!mensaje && !archivo) return;
-
-        let nombreFinal = rawNombre || "Anónimo";
-        if (rawNombre === LLAVE_MAESTRA) nombreFinal = "### RootMaster ###";
-
-        const btn = document.getElementById('btnPostear');
-        btn.disabled = true;
-        btn.innerText = "Subiendo...";
-
-        let publicURL = null;
-        try {
-            if (archivo) {
-                const nA = Date.now() + "_" + archivo.name;
-                await _supabase.storage.from('archivos').upload(nA, archivo);
-                publicURL = _supabase.storage.from('archivos').getPublicUrl(nA).data.publicUrl;
-            }
-
-            await _supabase.from('posts').insert([{ 
-                nombre: nombreFinal, 
-                mensaje: mensaje, 
-                url: publicURL, 
-                board: salaActual 
-            }]);
-
-            document.getElementById('comentario').value = "";
-            document.getElementById('archivo').value = "";
-        } catch (e) {
-            alert("Error al postear");
-        } finally {
-            btn.disabled = false;
-            btn.innerText = "Enviar Post";
+        let nFinal = (rawNombre === LLAVE_MAESTRA) ? "### RootMaster ###" : (rawNombre || "Anónimo");
+        let url = null;
+        if (archivo) {
+            const nA = Date.now() + "_" + archivo.name;
+            await _supabase.storage.from('archivos').upload(nA, archivo);
+            url = _supabase.storage.from('archivos').getPublicUrl(nA).data.publicUrl;
         }
+        await _supabase.from('posts').insert([{ nombre: nFinal, mensaje: mensaje, url: url, board: salaActual }]);
+        document.getElementById('comentario').value = "";
     };
 
-    _supabase.channel('any').on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, () => {
-        cargarPosts();
-    }).subscribe();
-
-    async function borrarPost(id) {
-        if(confirm("¿Eliminar este post para siempre?")) {
-            await _supabase.from('posts').delete().eq('id', id);
-        }
-    }
+    _supabase.channel('any').on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, () => { cargarPosts(); }).subscribe();
+    async function borrarPost(id) { if(confirm("¿Borrar?")) await _supabase.from('posts').delete().eq('id', id); }
 </script>
 </body>
 </html>
