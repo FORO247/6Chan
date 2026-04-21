@@ -9,128 +9,92 @@
         body { 
             background-color: #E0F2F1; 
             color: #800000; font-family: arial,helvetica,sans-serif; margin: 0; padding: 0;
-            transition: background-color 0.4s ease;
-            /* Letras sutiles de fondo */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='30' viewBox='0 0 60 30'%3E%3Ctext x='0' y='20' font-family='Arial' font-size='8' fill='%23009688' fill-opacity='0.08' transform='rotate(160 30 15)'%3E6Chan%3C/text%3E%3C/svg%3E");
         }
         body.in-room { background-image: none !important; }
 
         /* --- PANTALLA DE INICIO --- */
         #home-screen { text-align: center; padding: 40px 20px; }
-        .libelula { width: 100px; height: 100px; margin-bottom: 10px; }
         h1 { font-size: 3.5rem; color: #AF0A0F; margin: 0; }
+        .legal-notice { max-width: 700px; margin: 25px auto; padding: 20px; background: rgba(255,255,255,0.9); border: 2px solid #AF0A0F; font-size: 10pt; line-height: 1.5; color: #333; text-align: justify; }
 
-        .legal-notice { 
-            max-width: 700px; margin: 25px auto; padding: 20px; 
-            background: rgba(255,255,255,0.9); border: 2px solid #AF0A0F; 
-            font-size: 10pt; line-height: 1.5; color: #333; text-align: justify;
-        }
-
-        /* --- LISTA DE SALAS CON FOTOS --- */
-        .board-list { 
-            max-width: 850px; margin: 20px auto; display: flex; flex-wrap: wrap; 
-            justify-content: center; gap: 20px; padding: 0;
-        }
+        /* --- TARJETAS DE SALAS --- */
+        .board-list { max-width: 850px; margin: 20px auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
         .board-card {
             background: rgba(214, 218, 240, 0.9); border: 1px solid #B7C5D9; 
             text-decoration: none; color: #34345C; font-weight: bold; 
-            width: 160px; transition: all 0.3s ease; padding: 15px; text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-radius: 8px;
+            width: 160px; transition: 0.3s ease; padding: 15px; text-align: center; border-radius: 8px;
         }
-        .board-card:hover { 
-            background: #AF0A0F !important; color: white !important; 
-            border-color: #AF0A0F; transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(175, 10, 15, 0.3);
-        }
-        .board-card img { 
-            width: 100%; height: 100px; object-fit: contain; 
-            margin-bottom: 12px; border-radius: 4px;
-        }
+        .board-card:hover { background: #AF0A0F !important; color: white !important; transform: translateY(-5px); }
+        .board-card img { width: 100%; height: 110px; object-fit: contain; margin-bottom: 12px; border-radius: 4px; }
 
-        /* --- SECCIONES ESPECIALES --- */
-        #normas-screen, #age-wall { 
-            max-width: 600px; margin: 40px auto; padding: 30px; 
-            background: white; border: 2px solid #AF0A0F; text-align: left; 
-            box-shadow: 0px 4px 15px rgba(0,0,0,0.1); color: #333;
-        }
-
-        /* --- VENTANA DE CHAT --- */
+        /* --- VENTANAS Y CHAT --- */
+        .hidden { display: none !important; }
         #chat-window { display: none; padding: 10px; max-width: 900px; margin: 0 auto; position: relative; }
+        #age-wall, #normas-screen { max-width: 500px; margin: 50px auto; padding: 30px; background: white; border: 2px solid #AF0A0F; text-align: center; box-shadow: 0px 4px 15px rgba(0,0,0,0.1); }
+        
         .window-header { text-align: center; padding: 20px 0; }
         #titulo-sala { margin: 0; color: #AF0A0F; font-size: 26pt; }
-        .back-link { position: absolute; top: 20px; right: 10px; color: #AF0A0F; text-decoration: none; font-weight: bold; border: 2px solid #AF0A0F; padding: 6px 15px; background: rgba(255,255,255,0.8); z-index: 10; }
+        .back-link { float: right; color: #AF0A0F; text-decoration: none; font-weight: bold; border: 2px solid #AF0A0F; padding: 5px 15px; background: white; }
 
         /* --- POSTS --- */
-        .post { background-color: rgba(255, 255, 255, 0.8); border: 1px solid #B7C5D9; padding: 12px; margin-bottom: 12px; }
-        .post-info { font-size: 9pt; color: #117743; font-weight: bold; border-bottom: 1px solid rgba(0,0,0,0.1); margin-bottom: 8px; }
-        .post-message { color: #000; white-space: pre-wrap; font-size: 11pt; word-wrap: break-word; line-height: 1.4; }
+        .post { background-color: rgba(255, 255, 255, 0.8); border: 1px solid #B7C5D9; padding: 12px; margin-bottom: 12px; text-align: left; }
+        .post-info { font-size: 9pt; color: #117743; font-weight: bold; border-bottom: 1px solid #ddd; margin-bottom: 8px; }
+        .post-message { color: #000; white-space: pre-wrap; font-size: 11pt; }
         .post-media { max-width: 100%; max-height: 350px; display: block; margin: 10px 0; border: 1px solid #AAA; }
-        .btn-delete { color: red; cursor: pointer; font-size: 8pt; margin-left: 10px; text-decoration: underline; }
 
-        .post-form table { background-color: rgba(255, 255, 255, 0.9); border: 1px solid #B7C5D9; width: 100%; max-width: 500px; margin: 0 auto 25px auto; border-collapse: collapse; }
+        /* --- FORMULARIO --- */
+        .post-form table { background: white; border: 1px solid #B7C5D9; width: 100%; max-width: 500px; margin: 0 auto 25px auto; border-collapse: collapse; }
         .post-form td { padding: 8px; border: 1px solid #B7C5D9; }
-        input, textarea { width: 100%; box-sizing: border-box; padding: 8px; border: 1px solid #AAA; }
-        #btnPostear { width: 100%; padding: 12px; background: #eee; font-weight: bold; cursor: pointer; border: 1px solid #777; }
-
-        .hidden { display: none !important; }
+        input, textarea { width: 100%; box-sizing: border-box; }
+        #btnPostear { width: 100%; padding: 10px; background: #eee; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div id="home-screen">
-    <svg class="libelula" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="4" ry="25" fill="#00796B" transform="rotate(-15 50 50)"/><circle cx="43" cy="30" r="6" fill="#00796B"/><ellipse cx="65" cy="35" rx="25" ry="8" fill="rgba(0, 188, 212, 0.6)" transform="rotate(-30 65 35)"/><ellipse cx="30" cy="55" rx="25" ry="8" fill="rgba(0, 188, 212, 0.6)" transform="rotate(-30 30 55)"/></svg>
     <h1>6Chan</h1>
-    <div class="legal-notice">“El usuario es el único responsable del contenido que publica. La plataforma actúa como intermediaria y podrá remover contenido y/o suspender cuentas ante incumplimientos o requerimientos legales.”</div>
-    <p>Antes de publicar lee las <a href="#normas" style="color: #FF0000; font-weight: bold;">normas</a>.</p>
+    <div class="legal-notice">“El usuario es el único responsable del contenido que publica. La plataforma podrá remover contenido ante incumplimientos legales.”</div>
     
     <div class="board-list">
         <a href="#b" class="board-card">
-            <img src="https://i.imgur.com/8n9Xp8M.png" referrerpolicy="no-referrer">
-            <div>Random</div>
+            <img src="https://via.placeholder.com/150?text=Random">
+            <div>/b/ - Random</div>
         </a>
 
         <a href="#vg" class="board-card">
-            <img src="https://i.imgur.com/8kXf2uK.png" referrerpolicy="no-referrer">
-            <div>Juegos</div>
+            <img src="https://i.postimg.cc/0NbJFsdZ/Chat-GPT-Image-20-abr-2026-22-21-21.png">
+            <div>/vg/ - Juegos</div>
         </a>
 
         <a href="#tech" class="board-card">
-            <img src="https://i.imgur.com/w8q3A9C.png" referrerpolicy="no-referrer">
-            <div>Tech</div>
+            <img src="https://via.placeholder.com/150?text=Tech">
+            <div>/tech/ - Tech</div>
         </a>
 
         <a href="#adult" class="board-card">
-            <img src="https://i.imgur.com/Y0q9BmW.png" referrerpolicy="no-referrer">
-            <div>+18</div>
+            <img src="https://i.postimg.cc/Dfs177VY/Chat-GPT-Image-20-abr-2026-22-15-00.png">
+            <div>/adult/ - +18</div>
         </a>
     </div>
 </div>
 
 <div id="age-wall" class="hidden">
-    <h2 style="color: #AF0A0F; text-align: center;">CONTENIDO RESTRINGIDO</h2>
-    <p>Esta sala contiene material exclusivo para adultos. Debes confirmar que eres mayor de 18 años para entrar.</p>
-    <center style="margin-top:20px;">
-        <button onclick="confirmarEdad()" style="background:#AF0A0F; color:white; padding:15px; border:none; cursor:pointer; font-weight:bold;">SÍ, SOY MAYOR</button>
-        <button onclick="location.hash=''" style="background:#CCC; padding:15px; border:none; cursor:pointer; margin-left:10px;">SALIR</button>
-    </center>
-</div>
-
-<div id="normas-screen" class="hidden">
-    <h2 style="color: #AF0A0F; text-align: center;">Normas</h2>
-    <ul>
-        <li>Tolerancia Cero (CP): Reporte inmediato.</li>
-        <li>No Doxing ni acoso personal.</li>
-        <li>No Spam o enlaces maliciosos.</li>
-    </ul>
-    <center><a href="#" style="background: #AF0A0F; color: white; padding: 10px 20px; text-decoration: none; font-weight: bold;">ACEPTAR</a></center>
+    <h2 style="color: #AF0A0F;">CONTENIDO RESTRINGIDO</h2>
+    <p>Esta sala contiene material para adultos. ¿Confirmas que eres mayor de 18 años?</p>
+    <div style="margin-top: 20px;">
+        <button onclick="confirmarEdad()" style="background:#AF0A0F; color:white; padding:15px 30px; border:none; cursor:pointer; font-weight:bold;">SÍ, SOY MAYOR</button>
+        <button onclick="location.hash=''" style="padding:15px 30px; border:none; cursor:pointer; margin-left:10px;">SALIR</button>
+    </div>
 </div>
 
 <div id="chat-window">
     <a href="#" class="back-link">Volver</a>
     <div class="window-header"><h2 id="titulo-sala">Sala</h2></div>
+    
     <div class="post-form">
         <table>
-            <tr><td style="background:#98E; color:white; width:80px;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
+            <tr><td style="background:#98E; color:white;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
             <tr><td style="background:#98E; color:white;">Mensaje</td><td><textarea id="comentario" rows="4"></textarea></td></tr>
             <tr><td style="background:#98E; color:white;">Archivo</td><td><input type="file" id="archivo" accept="image/*,video/*"></td></tr>
             <tr><td colspan="2"><button id="btnPostear">Enviar Post</button></td></tr>
@@ -145,12 +109,8 @@
     const SUPABASE_KEY = 'sb_publishable_4-KbL6m-qggsp9Kj0cP5Jw_s5bv_FIW';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    const LLAVE_MAESTRA = "TU_PALABRA_SECRETA"; 
     let salaActual = 'home';
     let edadConfirmada = false;
-
-    const coloresSalas = { 'home': '#E0F2F1', 'b': '#F5F5DC', 'vg': '#E8F5E9', 'tech': '#E3F2FD', 'adult': '#2C2C2C', 'normas': '#FFFFFF' };
-    const nombresSalas = { 'b': 'Random', 'vg': 'Videojuegos', 'tech': 'Tecnología', 'adult': 'Zona +18' };
 
     function confirmarEdad() {
         edadConfirmada = true;
@@ -161,78 +121,60 @@
         const hash = window.location.hash.replace('#', '');
         
         document.getElementById('home-screen').classList.add('hidden');
-        document.getElementById('normas-screen').classList.add('hidden');
         document.getElementById('age-wall').classList.add('hidden');
         document.getElementById('chat-window').style.display = 'none';
         document.body.classList.remove('in-room');
-        document.body.style.color = "#800000";
 
-        if (!hash || hash === "") {
+        if (!hash) {
             document.getElementById('home-screen').classList.remove('hidden');
-            document.body.style.backgroundColor = coloresSalas['home'];
             salaActual = 'home';
-        } else if (hash === "normas") {
-            document.getElementById('normas-screen').classList.remove('hidden');
-            document.body.style.backgroundColor = "#FFF";
-            document.body.classList.add('in-room');
         } else if (hash === "adult" && !edadConfirmada) {
             document.getElementById('age-wall').classList.remove('hidden');
             document.body.style.backgroundColor = "#111";
-            document.body.style.color = "#FFF";
         } else {
             salaActual = hash;
             document.getElementById('chat-window').style.display = 'block';
-            document.body.style.backgroundColor = coloresSalas[hash] || '#FFF';
             document.body.classList.add('in-room');
-            if(hash === 'adult') document.body.style.color = "#FFF";
-            document.getElementById('titulo-sala').innerText = nombresSalas[hash] || hash.toUpperCase();
+            document.getElementById('titulo-sala').innerText = "/" + hash + "/";
+            document.body.style.backgroundColor = (hash === 'adult') ? "#2C2C2C" : "#E0F2F1";
             cargarPosts();
         }
     }
 
-    window.addEventListener('hashchange', () => { 
-        if(window.location.hash !== "#adult") edadConfirmada = false; 
-        procesarRuta(); 
-    });
-    window.addEventListener('load', procesarRuta);
-
     async function cargarPosts() {
-        if(salaActual === 'home' || salaActual === 'normas' || !salaActual) return;
+        if(salaActual === 'home') return;
         const { data: posts } = await _supabase.from('posts').select('*').eq('board', salaActual).order('id', { ascending: false });
         const board = document.getElementById('board');
-        const soyAdmin = (document.getElementById('nombre').value === LLAVE_MAESTRA);
         board.innerHTML = "";
         if(posts) {
             posts.forEach(post => {
                 let mediaHtml = post.url ? `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media"></a>` : "";
-                const btnEliminar = soyAdmin ? `<span class="btn-delete" onclick="borrarPost(${post.id})">[BORRAR]</span>` : "";
-                board.innerHTML += `<div class="post"><div class="post-info"><span>${post.nombre}</span> | No.${post.id} ${btnEliminar}</div>${mediaHtml}<div class="post-message">${post.mensaje}</div></div>`;
+                board.innerHTML += `<div class="post"><div class="post-info">${post.nombre} | No.${post.id}</div>${mediaHtml}<div class="post-message">${post.mensaje}</div></div>`;
             });
         }
     }
 
     document.getElementById('btnPostear').onclick = async () => {
-        const rawNombre = document.getElementById('nombre').value.trim();
+        const nombre = document.getElementById('nombre').value || "Anónimo";
         const mensaje = document.getElementById('comentario').value;
         const archivo = document.getElementById('archivo').files[0];
         if (!mensaje && !archivo) return;
 
-        let nFinal = (rawNombre === LLAVE_MAESTRA) ? "### RootMaster ###" : (rawNombre || "Anónimo");
         let url = null;
-        
         if (archivo) {
             const nA = Date.now() + "_" + archivo.name;
             await _supabase.storage.from('archivos').upload(nA, archivo);
             url = _supabase.storage.from('archivos').getPublicUrl(nA).data.publicUrl;
         }
 
-        await _supabase.from('posts').insert([{ nombre: nFinal, mensaje: mensaje, url: url, board: salaActual }]);
+        await _supabase.from('posts').insert([{ nombre, mensaje, url, board: salaActual }]);
         document.getElementById('comentario').value = "";
         document.getElementById('archivo').value = "";
     };
 
+    window.addEventListener('hashchange', () => { if(window.location.hash !== "#adult") edadConfirmada = false; procesarRuta(); });
+    window.addEventListener('load', procesarRuta);
     _supabase.channel('any').on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, () => { cargarPosts(); }).subscribe();
-    async function borrarPost(id) { if(confirm("¿Borrar post?")) await _supabase.from('posts').delete().eq('id', id); }
 </script>
 </body>
 </html>
