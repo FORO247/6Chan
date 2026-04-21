@@ -40,6 +40,7 @@
         .board-card:hover { 
             background: #AF0A0F !important; color: white !important; 
             border-color: #AF0A0F; transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(175, 10, 15, 0.3);
         }
         .board-card img { 
             width: 100%; height: 110px; object-fit: contain; 
@@ -59,18 +60,18 @@
         #titulo-sala { margin: 0; color: #AF0A0F; font-size: 26pt; }
         .back-link { position: absolute; top: 20px; right: 10px; color: #AF0A0F; text-decoration: none; font-weight: bold; border: 2px solid #AF0A0F; padding: 6px 15px; background: rgba(255,255,255,0.8); z-index: 10; }
 
-        /* --- POSTS (Soporte Multimedia Mejorado) --- */
+        /* --- POSTS --- */
         .post { background-color: rgba(255, 255, 255, 0.8); border: 1px solid #B7C5D9; padding: 12px; margin-bottom: 12px; }
         .post-info { font-size: 9pt; color: #117743; font-weight: bold; border-bottom: 1px solid rgba(0,0,0,0.1); margin-bottom: 8px; }
         .post-message { color: #000; white-space: pre-wrap; font-size: 11pt; word-wrap: break-word; }
         .post-media { max-width: 100%; max-height: 400px; display: block; margin: 10px 0; border: 1px solid #AAA; background: #000; }
         .btn-delete { color: red; cursor: pointer; font-size: 8pt; margin-left: 10px; text-decoration: underline; }
-        .name-admin { color: #AF0A0F; font-weight: bolder; }
+        .name-admin { color: #AF0A0F !important; font-weight: bolder; }
 
         /* --- FORMULARIO --- */
         .post-form table { background-color: rgba(255, 255, 255, 0.9); border: 1px solid #B7C5D9; width: 100%; max-width: 500px; margin: 0 auto 25px auto; border-collapse: collapse; }
         .post-form td { padding: 8px; border: 1px solid #B7C5D9; }
-        #btnPostear { width: 100%; padding: 12px; background: #eee; font-weight: bold; cursor: pointer; }
+        #btnPostear { width: 100%; padding: 12px; background: #eee; font-weight: bold; cursor: pointer; border: 1px solid #777; }
 
         .hidden { display: none !important; }
     </style>
@@ -80,26 +81,34 @@
 <div id="home-screen">
     <svg class="libelula" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="4" ry="25" fill="#00796B" transform="rotate(-15 50 50)"/><circle cx="43" cy="30" r="6" fill="#00796B"/><ellipse cx="65" cy="35" rx="25" ry="8" fill="rgba(0, 188, 212, 0.6)" transform="rotate(-30 65 35)"/><ellipse cx="30" cy="55" rx="25" ry="8" fill="rgba(0, 188, 212, 0.6)" transform="rotate(-30 30 55)"/></svg>
     <h1>6Chan</h1>
-    <div class="legal-notice">“El usuario es el único responsable del contenido que publica.”</div>
+    <div class="legal-notice">“El usuario es el único responsable del contenido que publica. La plataforma actúa como intermediaria y podrá remover contenido y/o suspender cuentas ante incumplimientos o requerimientos legales.”</div>
     <p>Antes de publicar lee las <a href="#normas" style="color: #FF0000; font-weight: bold;">normas</a>.</p>
     
     <div class="board-list">
-        <a href="#b" class="board-card"><img src="https://via.placeholder.com/150?text=Random" crossorigin="anonymous"><div>Random</div></a>
-        <a href="#vg" class="board-card"><img src="https://i.postimg.cc/0NbJFsdZ/Chat-GPT-Image-20-abr-2026-22-21-21.png" crossorigin="anonymous"><div>Juegos</div></a>
-        <a href="#tech" class="board-card"><img src="https://via.placeholder.com/150?text=Tech" crossorigin="anonymous"><div>Tech</div></a>
-        <a href="#adult" class="board-card"><img src="https://i.postimg.cc/Dfs177VY/Chat-GPT-Image-20-abr-2026-22-15-00.png" crossorigin="anonymous"><div>+18</div></a>
+        <a href="#b" class="board-card"><img src="https://via.placeholder.com/150?text=Random"><div>Random</div></a>
+        <a href="#vg" class="board-card"><img src="https://i.postimg.cc/0NbJFsdZ/Chat-GPT-Image-20-abr-2026-22-21-21.png"><div>Juegos</div></a>
+        <a href="#tech" class="board-card"><img src="https://via.placeholder.com/150?text=Tech"><div>Tech</div></a>
+        <a href="#adult" class="board-card"><img src="https://i.postimg.cc/Dfs177VY/Chat-GPT-Image-20-abr-2026-22-15-00.png"><div>+18</div></a>
     </div>
 </div>
 
-<div id="normas-screen" class="hidden">
-    <h2 style="color: #AF0A0F; text-align: center;">Normas</h2>
-    <ul><li>No contenido ilegal.</li><li>No acoso.</li></ul>
-    <center><a href="#" style="background: #AF0A0F; color: white; padding: 10px 40px; text-decoration: none; font-weight: bold;">ACEPTAR</a></center>
+<div id="age-wall" class="hidden">
+    <h2 style="color: #AF0A0F; text-align: center;">CONTENIDO RESTRINGIDO</h2>
+    <p>Esta sala contiene material exclusivo para adultos. Debes confirmar que eres mayor de 18 años para entrar.</p>
+    <center style="margin-top:20px;">
+        <button onclick="confirmarEdad()" style="background:#AF0A0F; color:white; padding:15px; border:none; cursor:pointer; font-weight:bold;">SÍ, SOY MAYOR</button>
+        <button onclick="location.hash=''" style="background:#CCC; padding:15px; border:none; cursor:pointer; margin-left:10px;">SALIR</button>
+    </center>
 </div>
 
-<div id="age-wall" class="hidden">
-    <h2 style="color: #AF0A0F; text-align: center;">ZONA RESTRINGIDA</h2>
-    <center><button onclick="confirmarEdad()" style="background:#AF0A0F; color:white; padding:15px; border:none; cursor:pointer;">ENTRAR (+18)</button></center>
+<div id="normas-screen" class="hidden">
+    <h2 style="color: #AF0A0F; text-align: center;">Normas del Tablón</h2>
+    <ul style="line-height: 1.8;">
+        <li><strong>Tolerancia Cero (CP):</strong> Reporte inmediato a las autoridades.</li>
+        <li><strong>No Doxing:</strong> Prohibido publicar datos privados.</li>
+        <li><strong>No Spam:</strong> Evita inundar las salas con basura.</li>
+    </ul>
+    <center style="margin-top:20px;"><a href="#" style="background: #AF0A0F; color: white; padding: 10px 40px; text-decoration: none; font-weight: bold; border-radius: 4px;">ACEPTAR</a></center>
 </div>
 
 <div id="chat-window">
@@ -107,13 +116,13 @@
     <div class="window-header"><h2 id="titulo-sala">Sala</h2></div>
     <div class="post-form">
         <table>
-            <tr><td>Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
-            <tr><td>Mensaje</td><td><textarea id="comentario" rows="4"></textarea></td></tr>
-            <tr><td>Archivo</td><td><input type="file" id="archivo"></td></tr>
+            <tr><td style="background:#98E; color:white;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
+            <tr><td style="background:#98E; color:white;">Mensaje</td><td><textarea id="comentario" rows="4"></textarea></td></tr>
+            <tr><td style="background:#98E; color:white;">Archivo</td><td><input type="file" id="archivo"></td></tr>
             <tr><td colspan="2"><button id="btnPostear">Enviar Post</button></td></tr>
         </table>
     </div>
-    <div id="board">Cargando...</div>
+    <div id="board">Cargando mensajes...</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -126,6 +135,9 @@
     let salaActual = 'home';
     let edadConfirmada = false;
 
+    const coloresSalas = { 'home': '#E0F2F1', 'b': '#F5F5DC', 'vg': '#E8F5E9', 'tech': '#E3F2FD', 'adult': '#2C2C2C', 'normas': '#FFFFFF' };
+    const nombresSalas = { 'b': 'Random', 'vg': 'Juegos', 'tech': 'Tech', 'adult': '+18' };
+
     function confirmarEdad() { edadConfirmada = true; procesarRuta(); }
 
     async function procesarRuta() {
@@ -134,41 +146,64 @@
         document.getElementById('normas-screen').classList.add('hidden');
         document.getElementById('age-wall').classList.add('hidden');
         document.getElementById('chat-window').style.display = 'none';
-        
-        if (!hash) {
+        document.body.classList.remove('in-room');
+        document.body.style.color = "#800000";
+
+        if (!hash || hash === "") {
             document.getElementById('home-screen').classList.remove('hidden');
-            document.body.style.backgroundColor = "#E0F2F1";
+            document.body.style.backgroundColor = coloresSalas['home'];
+            salaActual = 'home';
         } else if (hash === "normas") {
             document.getElementById('normas-screen').classList.remove('hidden');
+            document.body.style.backgroundColor = "#FFF";
+            document.body.classList.add('in-room');
         } else if (hash === "adult" && !edadConfirmada) {
             document.getElementById('age-wall').classList.remove('hidden');
             document.body.style.backgroundColor = "#111";
+            document.body.style.color = "#FFF";
         } else {
             salaActual = hash;
             document.getElementById('chat-window').style.display = 'block';
-            document.getElementById('titulo-sala').innerText = hash.toUpperCase();
+            document.body.style.backgroundColor = coloresSalas[hash] || '#FFF';
+            document.body.classList.add('in-room');
+            if(hash === 'adult') document.body.style.color = "#FFF";
+            document.getElementById('titulo-sala').innerText = nombresSalas[hash] || hash.toUpperCase();
             cargarPosts();
         }
     }
 
     async function cargarPosts() {
+        if(salaActual === 'home' || salaActual === 'normas') return;
         const { data: posts } = await _supabase.from('posts').select('*').eq('board', salaActual).order('id', { ascending: false });
         const board = document.getElementById('board');
+        const soyAdmin = (document.getElementById('nombre').value === LLAVE_MAESTRA);
         board.innerHTML = "";
         
-        posts.forEach(post => {
-            let mediaHtml = "";
-            if (post.url) {
-                // DETECTAR SI ES VIDEO O IMAGEN PARA EVITAR MINIATURA ROTA
-                const esVideo = post.url.match(/\.(mp4|webm|ogg|mov)$/i);
-                if (esVideo) {
-                    mediaHtml = `<video src="${post.url}" controls class="post-media"></video>`;
-                } else {
-                    mediaHtml = `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media" crossorigin="anonymous"></a>`;
+        if(posts) {
+            posts.forEach(post => {
+                let mediaHtml = "";
+                if (post.url) {
+                    const esVideo = post.url.match(/\.(mp4|webm|ogg|mov)$/i);
+                    if (esVideo) {
+                        mediaHtml = `<video src="${post.url}" controls class="post-media"></video>`;
+                    } else {
+                        mediaHtml = `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media" crossorigin="anonymous"></a>`;
+                    }
                 }
-            }
-            board.innerHTML += `<div class="post"><div class="post-info">${post.nombre} | No.${post.id}</div>${mediaHtml}<div class="post-message">${post.mensaje}</div></div>`;
-        });
+                const esAdminPost = post.nombre.includes("RootMaster");
+                const btnEliminar = soyAdmin ? `<span class="btn-delete" onclick="borrarPost(${post.id})">[BORRAR]</span>` : "";
+
+                board.innerHTML += `
+                    <div class="post">
+                        <div class="post-info">
+                            <span class="${esAdminPost ? 'name-admin' : ''}">${post.nombre}</span> 
+                            | No.${post.id} ${btnEliminar}
+                        </div>
+                        ${mediaHtml}
+                        <div class="post-message">${post.mensaje}</div>
+                    </div>`;
+            });
+        }
     }
 
     document.getElementById('btnPostear').onclick = async () => {
@@ -188,9 +223,10 @@
         document.getElementById('comentario').value = ""; document.getElementById('archivo').value = "";
     };
 
-    window.addEventListener('hashchange', procesarRuta);
+    window.addEventListener('hashchange', () => { if(window.location.hash !== "#adult") edadConfirmada = false; procesarRuta(); });
     window.addEventListener('load', procesarRuta);
     _supabase.channel('any').on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, () => { cargarPosts(); }).subscribe();
+    async function borrarPost(id) { if(confirm("¿Borrar?")) await _supabase.from('posts').delete().eq('id', id); }
 </script>
 </body>
 </html>
