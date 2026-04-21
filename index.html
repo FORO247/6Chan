@@ -10,6 +10,7 @@
             background-color: #E0F2F1; 
             color: #800000; font-family: arial,helvetica,sans-serif; margin: 0; padding: 0;
             transition: background-color 0.4s ease;
+            /* Letras sutiles de fondo */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='30' viewBox='0 0 60 30'%3E%3Ctext x='0' y='20' font-family='Arial' font-size='8' fill='%23009688' fill-opacity='0.08' transform='rotate(160 30 15)'%3E6Chan%3C/text%3E%3C/svg%3E");
         }
         body.in-room { background-image: none !important; }
@@ -33,7 +34,7 @@
         .board-card {
             background: rgba(214, 218, 240, 0.9); border: 1px solid #B7C5D9; 
             text-decoration: none; color: #34345C; font-weight: bold; 
-            width: 160px; transition: all 0.3s ease; padding: 10px; text-align: center;
+            width: 160px; transition: all 0.3s ease; padding: 15px; text-align: center;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-radius: 8px;
         }
         .board-card:hover { 
@@ -43,7 +44,7 @@
         }
         .board-card img { 
             width: 100%; height: 100px; object-fit: contain; 
-            margin-bottom: 10px; border-radius: 4px;
+            margin-bottom: 12px; border-radius: 4px;
         }
 
         /* --- SECCIONES ESPECIALES --- */
@@ -62,14 +63,14 @@
         /* --- POSTS --- */
         .post { background-color: rgba(255, 255, 255, 0.8); border: 1px solid #B7C5D9; padding: 12px; margin-bottom: 12px; }
         .post-info { font-size: 9pt; color: #117743; font-weight: bold; border-bottom: 1px solid rgba(0,0,0,0.1); margin-bottom: 8px; }
-        .post-message { color: #000; white-space: pre-wrap; font-size: 11pt; word-wrap: break-word; }
+        .post-message { color: #000; white-space: pre-wrap; font-size: 11pt; word-wrap: break-word; line-height: 1.4; }
         .post-media { max-width: 100%; max-height: 350px; display: block; margin: 10px 0; border: 1px solid #AAA; }
-        .btn-delete { color: red; cursor: pointer; font-size: 8pt; margin-left: 10px; }
+        .btn-delete { color: red; cursor: pointer; font-size: 8pt; margin-left: 10px; text-decoration: underline; }
 
-        /* --- FORMULARIO --- */
         .post-form table { background-color: rgba(255, 255, 255, 0.9); border: 1px solid #B7C5D9; width: 100%; max-width: 500px; margin: 0 auto 25px auto; border-collapse: collapse; }
         .post-form td { padding: 8px; border: 1px solid #B7C5D9; }
-        #btnPostear { width: 100%; padding: 12px; background: #eee; font-weight: bold; cursor: pointer; }
+        input, textarea { width: 100%; box-sizing: border-box; padding: 8px; border: 1px solid #AAA; }
+        #btnPostear { width: 100%; padding: 12px; background: #eee; font-weight: bold; cursor: pointer; border: 1px solid #777; }
 
         .hidden { display: none !important; }
     </style>
@@ -81,11 +82,27 @@
     <h1>6Chan</h1>
     <div class="legal-notice">“El usuario es el único responsable del contenido que publica. La plataforma actúa como intermediaria y podrá remover contenido y/o suspender cuentas ante incumplimientos o requerimientos legales.”</div>
     <p>Antes de publicar lee las <a href="#normas" style="color: #FF0000; font-weight: bold;">normas</a>.</p>
+    
     <div class="board-list">
-        <a href="#b" class="board-card"><img src="https://i.imgur.com/8n9Xp8M.png"><div>Random</div></a>
-        <a href="#vg" class="board-card"><img src="https://i.imgur.com/8kXf2uK.png"><div>Juegos</div></a>
-        <a href="#tech" class="board-card"><img src="https://i.imgur.com/w8q3A9C.png"><div>Tech</div></a>
-        <a href="#adult" class="board-card"><img src="https://i.imgur.com/Y0q9BmW.png"><div>+18</div></a>
+        <a href="#b" class="board-card">
+            <img src="https://i.imgur.com/8n9Xp8M.png" referrerpolicy="no-referrer">
+            <div>Random</div>
+        </a>
+
+        <a href="#vg" class="board-card">
+            <img src="https://i.imgur.com/8kXf2uK.png" referrerpolicy="no-referrer">
+            <div>Juegos</div>
+        </a>
+
+        <a href="#tech" class="board-card">
+            <img src="https://i.imgur.com/w8q3A9C.png" referrerpolicy="no-referrer">
+            <div>Tech</div>
+        </a>
+
+        <a href="#adult" class="board-card">
+            <img src="https://i.imgur.com/Y0q9BmW.png" referrerpolicy="no-referrer">
+            <div>+18</div>
+        </a>
     </div>
 </div>
 
@@ -113,13 +130,13 @@
     <div class="window-header"><h2 id="titulo-sala">Sala</h2></div>
     <div class="post-form">
         <table>
-            <tr><td style="background:#98E; color:white;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
+            <tr><td style="background:#98E; color:white; width:80px;">Nombre</td><td><input type="text" id="nombre" placeholder="Anónimo"></td></tr>
             <tr><td style="background:#98E; color:white;">Mensaje</td><td><textarea id="comentario" rows="4"></textarea></td></tr>
             <tr><td style="background:#98E; color:white;">Archivo</td><td><input type="file" id="archivo" accept="image/*,video/*"></td></tr>
             <tr><td colspan="2"><button id="btnPostear">Enviar Post</button></td></tr>
         </table>
     </div>
-    <div id="board">Cargando...</div>
+    <div id="board">Cargando mensajes...</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -142,6 +159,7 @@
 
     async function procesarRuta() {
         const hash = window.location.hash.replace('#', '');
+        
         document.getElementById('home-screen').classList.add('hidden');
         document.getElementById('normas-screen').classList.add('hidden');
         document.getElementById('age-wall').classList.add('hidden');
@@ -182,11 +200,15 @@
         if(salaActual === 'home' || salaActual === 'normas' || !salaActual) return;
         const { data: posts } = await _supabase.from('posts').select('*').eq('board', salaActual).order('id', { ascending: false });
         const board = document.getElementById('board');
+        const soyAdmin = (document.getElementById('nombre').value === LLAVE_MAESTRA);
         board.innerHTML = "";
-        posts.forEach(post => {
-            let mediaHtml = post.url ? `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media"></a>` : "";
-            board.innerHTML += `<div class="post"><div class="post-info"><span>${post.nombre}</span> | No.${post.id}</div>${mediaHtml}<div class="post-message">${post.mensaje}</div></div>`;
-        });
+        if(posts) {
+            posts.forEach(post => {
+                let mediaHtml = post.url ? `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media"></a>` : "";
+                const btnEliminar = soyAdmin ? `<span class="btn-delete" onclick="borrarPost(${post.id})">[BORRAR]</span>` : "";
+                board.innerHTML += `<div class="post"><div class="post-info"><span>${post.nombre}</span> | No.${post.id} ${btnEliminar}</div>${mediaHtml}<div class="post-message">${post.mensaje}</div></div>`;
+            });
+        }
     }
 
     document.getElementById('btnPostear').onclick = async () => {
@@ -194,19 +216,23 @@
         const mensaje = document.getElementById('comentario').value;
         const archivo = document.getElementById('archivo').files[0];
         if (!mensaje && !archivo) return;
+
         let nFinal = (rawNombre === LLAVE_MAESTRA) ? "### RootMaster ###" : (rawNombre || "Anónimo");
         let url = null;
+        
         if (archivo) {
             const nA = Date.now() + "_" + archivo.name;
             await _supabase.storage.from('archivos').upload(nA, archivo);
             url = _supabase.storage.from('archivos').getPublicUrl(nA).data.publicUrl;
         }
+
         await _supabase.from('posts').insert([{ nombre: nFinal, mensaje: mensaje, url: url, board: salaActual }]);
         document.getElementById('comentario').value = "";
         document.getElementById('archivo').value = "";
     };
 
     _supabase.channel('any').on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, () => { cargarPosts(); }).subscribe();
+    async function borrarPost(id) { if(confirm("¿Borrar post?")) await _supabase.from('posts').delete().eq('id', id); }
 </script>
 </body>
 </html>
