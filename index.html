@@ -86,19 +86,19 @@
     
     <div class="board-list">
         <a href="#b" class="board-card">
-            <img src="https://i.postimg.cc/Wzg2J9m6/Chat-GPT-Image-20-abr-2026-23-28-42.png">
+            <img src="https://i.postimg.cc/Wzg2J9m6/Chat-GPT-Image-20-abr-2026-23-28-42.png" referrerpolicy="no-referrer">
             <div>Random</div>
         </a>
         <a href="#vg" class="board-card">
-            <img src="https://i.postimg.cc/0NbJFsdZ/Chat-GPT-Image-20-abr-2026-22-21-21.png">
+            <img src="https://i.postimg.cc/0NbJFsdZ/Chat-GPT-Image-20-abr-2026-22-21-21.png" referrerpolicy="no-referrer">
             <div>Juegos</div>
         </a>
         <a href="#tecnologia" class="board-card">
-            <img src="https://i.postimg.cc/Hn2hKXdK/Chat-GPT-Image-20-abr-2026-23-34-18.png">
+            <img src="https://i.postimg.cc/Hn2hKXdK/Chat-GPT-Image-20-abr-2026-23-34-18.png" referrerpolicy="no-referrer">
             <div>Tecnología</div>
         </a>
         <a href="#adult" class="board-card">
-            <img src="https://i.postimg.cc/Dfs177VY/Chat-GPT-Image-20-abr-2026-22-15-00.png">
+            <img src="https://i.postimg.cc/Dfs177VY/Chat-GPT-Image-20-abr-2026-22-15-00.png" referrerpolicy="no-referrer">
             <div>+18</div>
         </a>
     </div>
@@ -147,7 +147,6 @@
     let salaActual = 'home';
     let edadConfirmada = false;
 
-    // Actualizado con "tecnologia"
     const coloresSalas = { 'home': '#E0F2F1', 'b': '#F5F5DC', 'vg': '#E8F5E9', 'tecnologia': '#E3F2FD', 'adult': '#2C2C2C', 'normas': '#FFFFFF' };
     const nombresSalas = { 'b': 'Random', 'vg': 'Juegos', 'tecnologia': 'Tecnología', 'adult': '+18' };
 
@@ -200,7 +199,7 @@
                     if (esVideo) {
                         mediaHtml = `<video src="${post.url}" controls class="post-media"></video>`;
                     } else {
-                        mediaHtml = `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media" crossorigin="anonymous"></a>`;
+                        mediaHtml = `<a href="${post.url}" target="_blank"><img src="${post.url}" class="post-media" referrerpolicy="no-referrer"></a>`;
                     }
                 }
                 const esAdminPost = post.nombre.includes("RootMaster");
